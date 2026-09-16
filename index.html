@@ -286,25 +286,86 @@ nav.links a:hover { color: var(--ink); }
 }
 .entry:hover .chip { border-color: var(--line); color: var(--ink-mid); }
 
-/* ── Método (destacado) ──────────────────────────────────────── */
+/* ── Cómo trabajo: personas, capas del producto y agentes ─────── */
 .method { background: var(--ground-deep); }
-.steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); margin-top: 34px; }
-@media (max-width: 860px) { .steps { grid-template-columns: repeat(2, minmax(0,1fr)); } }
-@media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
-.step { background: var(--surface); padding: 20px 18px 22px; display: flex; flex-direction: column; gap: 8px; }
-.step .n { font-family: var(--mono); font-size: .72rem; color: var(--accent); letter-spacing: .1em; }
-.step h3 { font-size: 1.06rem; }
-.step p { font-size: .88rem; color: var(--ink-soft); }
+.hw-part { margin-top: clamp(38px, 5vw, 58px); }
+.hw-part:first-of-type { margin-top: 0; }
+.hw-label {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  font-family: var(--mono); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-mid);
+}
+.hw-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.hw-num { color: var(--accent); }
+.hw-intro { font-size: .95rem; color: var(--ink-soft); margin: -6px 0 20px; }
 
-.result { margin-top: 34px; overflow-x: auto; }
-table { border-collapse: collapse; width: 100%; min-width: 420px; font-size: .9rem; }
-caption { text-align: left; font-size: .82rem; color: var(--ink-soft); padding-bottom: 10px; }
-th, td { text-align: left; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--line-soft); }
-th { font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); font-weight: 500; }
-td { color: var(--ink-mid); }
-td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--ink); }
-tr.win td { color: var(--ink); }
-tr.win td.n.k { color: var(--warm); font-weight: 500; }
+.hw-rhythm { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1000px) { .hw-rhythm { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .hw-rhythm { grid-template-columns: 1fr; } }
+.hw-beat {
+  background: var(--surface); border: 1px solid var(--line-soft); border-radius: 6px;
+  padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 8px;
+  transition: border-color .25s var(--ease), transform .25s var(--ease), box-shadow .3s var(--ease);
+}
+.hw-beat:hover { border-color: var(--line); transform: translateY(-2px); box-shadow: var(--shadow); }
+.hw-icon {
+  width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 4px;
+  color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.hw-icon svg { width: 19px; height: 19px; }
+.hw-beat h3 { font-family: var(--sans); font-weight: 600; font-size: .96rem; letter-spacing: 0; line-height: 1.3; }
+.hw-beat p { font-size: .85rem; line-height: 1.55; color: var(--ink-soft); }
+
+.hw-stack { list-style: none; margin: 0; padding: 0; position: relative; }
+.hw-stack::before {
+  content: ""; position: absolute; left: 6px; top: 22px; bottom: 22px; width: 1px;
+  background: linear-gradient(var(--accent), color-mix(in srgb, var(--accent) 25%, var(--line)));
+}
+.hw-layer {
+  position: relative; display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center;
+  gap: 8px 26px; padding: 16px 0 16px 34px; border-bottom: 1px solid var(--line-soft);
+}
+.hw-layer:last-child { border-bottom: 0; }
+.hw-node {
+  position: absolute; left: 0; top: 50%; width: 13px; height: 13px; margin-top: -6.5px; border-radius: 50%;
+  background: var(--ground-deep); border: 1px solid var(--accent);
+  box-shadow: 0 0 0 4px var(--ground-deep);
+}
+.hw-node::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--accent); opacity: calc(1 - var(--k) * .11); }
+.hw-tag { font-family: var(--mono); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+.hw-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.hw-body h3 { font-family: var(--serif); font-size: 1.14rem; line-height: 1.25; }
+.hw-body p { font-size: .88rem; line-height: 1.55; color: var(--ink-mid); max-width: 62ch; }
+.hw-layer .stack { justify-content: flex-end; max-width: 260px; }
+.hw-layer:hover .chip { border-color: var(--line); color: var(--ink-mid); }
+@media (max-width: 860px) {
+  .hw-layer { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .hw-node { top: 22px; margin-top: 0; }
+  .hw-layer .stack { justify-content: flex-start; max-width: none; }
+}
+
+.hw-agents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .hw-agents { grid-template-columns: 1fr; } }
+.hw-agent {
+  position: relative; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--line-soft); border-radius: 6px; box-shadow: var(--shadow);
+  padding: 24px 24px 22px; display: flex; flex-direction: column; gap: 12px;
+}
+.hw-agent::before {
+  content: ""; position: absolute; left: 0; top: 0; height: 2px; width: 100%;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 10%, transparent));
+}
+.hw-agent.wide { grid-column: 1 / -1; }
+.hw-agent h3 { font-size: clamp(1.2rem, 2vw, 1.45rem); }
+.hw-agent > p { font-size: .92rem; line-height: 1.65; color: var(--ink-mid); max-width: 78ch; }
+.hw-agent .metrics { margin-top: auto; border-radius: 3px; overflow: hidden; }
+.hw-agent .metric { padding: 10px 14px 11px; }
+.hw-flow { list-style: none; margin: 2px 0 4px; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.hw-flow li:not(.hw-sep) {
+  font-family: var(--mono); font-size: .7rem; letter-spacing: .04em; color: var(--ink);
+  padding: 5px 10px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+  background: color-mix(in srgb, var(--accent) 6%, var(--surface));
+}
+.hw-sep { color: var(--accent); font-size: .85rem; }
 
 blockquote {
   margin: 34px 0 0; padding-left: 22px; border-left: 2px solid var(--accent);
@@ -528,7 +589,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
     <nav class="links">
       <a href="#recorrido"><span data-l="es">Recorrido</span><span data-l="en">Track record</span></a>
       <a href="#trabajo"><span data-l="es">Trabajo</span><span data-l="en">Work</span></a>
-      <a href="#metodo"><span data-l="es">Método</span><span data-l="en">Method</span></a>
+      <a href="#metodo"><span data-l="es">Cómo trabajo</span><span data-l="en">How I work</span></a>
       <a href="#competencias"><span data-l="es">Competencias</span><span data-l="en">Skills</span></a>
       <a href="#contacto"><span data-l="es">Contacto</span><span data-l="en">Contact</span></a>
     </nav>
@@ -810,7 +871,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
             <h4 class="slide-title"><span data-l="es">Arquitecto e IA aplicada</span><span data-l="en">Architect, applied AI</span></h4>
             <p class="slide-text"><span data-l="es">Orquesta agentes bajo reglas escritas y verifica lo que producen. El esfuerzo se va al criterio y a la medición: cada modelo se compara contra el terreno y cada asistente pasa por un banco de pruebas antes de publicarse.</span><span data-l="en">Orchestrates agents under written rules and verifies what they produce. The effort moves to judgement and measurement: every model is checked against the ground and every assistant goes through a test harness before it ships.</span></p>
             <div class="metrics"><div class="metric"><b>89</b><span data-l="es">modelos entrenados en 35 familias</span><span data-l="en">models trained across 35 families</span></div><div class="metric"><b class="hi">0,995</b><span data-l="es">F1 del detector, verificado a mano</span><span data-l="en">detector F1, hand-verified</span></div><div class="metric"><b>118</b><span data-l="es">casos en los bancos de evaluación</span><span data-l="en">cases in the evaluation harnesses</span></div></div>
-            <div class="slide-foot"><div class="stack"><span class="chip">PyTorch</span><span class="chip">ONNX</span><span class="chip">RAG</span><span class="chip">OR-Tools</span></div><a class="slide-link" href="#metodo"><span data-l="es">Ver el método</span><span data-l="en">See the method</span><span aria-hidden="true">→</span></a></div>
+            <div class="slide-foot"><div class="stack"><span class="chip">PyTorch</span><span class="chip">ONNX</span><span class="chip">RAG</span><span class="chip">OR-Tools</span></div><a class="slide-link" href="#metodo"><span data-l="es">Ver cómo trabajo</span><span data-l="en">See how I work</span><span aria-hidden="true">→</span></a></div>
           </article>
           <article class="slide" role="group" aria-roledescription="slide" aria-label="3 / 8">
             <span class="slide-n" aria-hidden="true">03</span>
@@ -847,7 +908,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
           <article class="slide" role="group" aria-roledescription="slide" aria-label="7 / 8">
             <span class="slide-n" aria-hidden="true">07</span>
             <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2026</span><span class="tag ai" data-l="es">Con agentes</span><span class="tag ai" data-l="en">With agents</span></div>
-            <h4 class="slide-title"><span data-l="es">Fotogrametría con dron, de la foto a la tesela</span><span data-l="en">Drone photogrammetry, from photo to tile</span></h4>
+            <h4 class="slide-title"><span data-l="es">De fotos de drones a ver el mapa en la web</span><span data-l="en">From drone photos to seeing the map on the web</span></h4>
             <p class="slide-text"><span data-l="es">Una cadena reanudable de diez pasos: de miles de fotografías aéreas a ortofoto, modelos de superficie y teselas en la nube.</span><span data-l="en">A resumable ten-step pipeline: from thousands of aerial photos to orthophoto, surface models and tiles in the cloud.</span></p>
             <div class="metrics"><div class="metric"><b>26</b><span data-l="es">vuelos procesados</span><span data-l="en">flights processed</span></div><div class="metric"><b>5.351</b><span data-l="es">fotografías</span><span data-l="en">photographs</span></div><div class="metric"><b class="hi">13 h → 14 min</b><span data-l="es">densificación, al activar la GPU</span><span data-l="en">densification, after enabling the GPU</span></div></div>
             <div class="slide-foot"><div class="stack"><span class="chip">OpenDroneMap</span><span class="chip">GDAL</span><span class="chip">COG</span><span class="chip">PMTiles</span></div><a class="slide-link" href="#w-foto"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
@@ -1196,7 +1257,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
           <span class="tag ai" data-l="en">With agents</span>
         </div>
         <div class="entry-body">
-          <h3><span data-l="es">Fotogrametría con dron, de la foto a la tesela</span><span data-l="en">Drone photogrammetry, from photo to tile</span></h3>
+          <h3><span data-l="es">De fotos de drones a ver el mapa en la web</span><span data-l="en">From drone photos to seeing the map on the web</span></h3>
           <p>
             <span data-l="es">Una cadena de diez pasos que convierte miles de fotografías aéreas en ortofoto, modelo de superficie, modelo de terreno y modelo de altura de copa, los sube a la nube y los tesela. Si una tanda se corta se relanza igual: cada paso deja su marca de estado y los ya hechos se saltan.</span>
             <span data-l="en">A ten-step chain that turns thousands of aerial photographs into an orthophoto, a surface model, a terrain model and a canopy height model, uploads them and tiles them. If a batch is interrupted it just gets relaunched: every step leaves a state marker and completed ones are skipped.</span>
@@ -1288,83 +1349,120 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
     <div class="sec-head">
       <span class="eyebrow" data-l="es">Cómo trabajo</span>
       <span class="eyebrow" data-l="en">How I work</span>
-      <h2><span data-l="es">Una variable cada vez, y el instrumento correcto</span><span data-l="en">One variable at a time, and the right instrument</span></h2>
+      <h2><span data-l="es">Del equipo al servidor, y del servidor al campo</span><span data-l="en">From the team to the server, and from the server to the field</span></h2>
       <p class="lede">
-        <span data-l="es">Si solo pudiera contar una cosa en una entrevista, sería esta. La pregunta era si añadir un canal de altura de copa al modelo aportaba algo real.</span>
-        <span data-l="en">If I could only tell one story in an interview, it would be this one. The question was whether adding a canopy-height channel to the model actually helped.</span>
+        <span data-l="es">Así trabajo hoy en ClickPalm: coordino al equipo y al cliente, y construyo el producto completo, desde la infraestructura en la nube hasta el teléfono del operario en la plantación, con agentes de IA que ponen los datos al alcance de todos.</span><span data-l="en">This is how I work today at ClickPalm: I coordinate the team and the client, and I build the whole product, from cloud infrastructure to the operator's phone in the plantation, with AI agents that put the data within everyone's reach.</span>
       </p>
     </div>
-
-    <div class="steps">
-      <div class="step">
-        <span class="n">01</span>
-        <h3><span data-l="es">Aislar la variable</span><span data-l="en">Isolate the variable</span></h3>
-        <p>
-          <span data-l="es">Entre el modelo anterior y el candidato cambiaban dos cosas a la vez. Con una sola corrida no habría sabido cuál causó la mejora, así que entrené dos modelos que se diferenciaban en una sola.</span>
-          <span data-l="en">Two things changed at once between the old model and the candidate. A single run wouldn't have told me which caused the gain, so I trained two models differing in exactly one.</span>
-        </p>
-      </div>
-      <div class="step">
-        <span class="n">02</span>
-        <h3><span data-l="es">Descartar el instrumento malo</span><span data-l="en">Discard the wrong instrument</span></h3>
-        <p>
-          <span data-l="es">El F1 sobre etiquetas humanas no daba señal: eran setenta y cuatro plantas, y seis milésimas de diferencia equivalen a una sola. Medir ahí habría sido medir ruido.</span>
-          <span data-l="en">F1 against human labels gave no signal: seventy-four plants, where six thousandths of a point is a single one. Measuring there would have been measuring noise.</span>
-        </p>
-      </div>
-      <div class="step">
-        <span class="n">03</span>
-        <h3><span data-l="es">Medir contra el terreno</span><span data-l="en">Measure against the ground</span></h3>
-        <p>
-          <span data-l="es">Cambié el instrumento por una malla de 1.022 posiciones de siembra verificadas en campo. Con mil puntos de medida en vez de setenta y cuatro, la señal apareció.</span>
-          <span data-l="en">I swapped the instrument for a lattice of 1,022 planting positions verified in the field. With a thousand measurement points instead of seventy-four, the signal appeared.</span>
-        </p>
-      </div>
-      <div class="step">
-        <span class="n">04</span>
-        <h3><span data-l="es">Repetir lo que no fue limpio</span><span data-l="en">Repeat what wasn't clean</span></h3>
-        <p>
-          <span data-l="es">La primera medición no era comparable: los dos modelos corrían a umbrales distintos y parte de la diferencia era del umbral. La repetí antes de concluir nada, y lo dejé escrito.</span>
-          <span data-l="en">The first measurement wasn't comparable: the two models ran at different thresholds, so part of the gap came from the threshold. I repeated it before concluding anything, and wrote that down.</span>
-        </p>
+    <div class="hw-part">
+      <p class="hw-label"><span class="hw-num">01</span><span data-l="es">Con las personas</span><span data-l="en">With people</span></p>
+      <div class="hw-rhythm">
+        <div class="hw-beat">
+          <span class="hw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
+          <h3><span data-l="es">Dailys</span><span data-l="en">Dailies</span></h3>
+          <p><span data-l="es">Planifico la daily del equipo para empezar cada jornada con prioridades claras y bloqueos a la vista.</span><span data-l="en">I plan the team's daily so every day starts with clear priorities and blockers out in the open.</span></p>
+        </div>
+        <div class="hw-beat">
+          <span class="hw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 18.5v-.8a4 4 0 0 1 4-4h2"/><circle cx="9.5" cy="8" r="3.2"/><path d="M14 13.5h5.5v4.2H17l-2 1.8v-1.8h-1z"/></svg></span>
+          <h3><span data-l="es">Reuniones con el cliente</span><span data-l="en">Client meetings</span></h3>
+          <p><span data-l="es">Escucho lo que necesita la operación, lo traduzco en alcance y presento los avances.</span><span data-l="en">I listen to what operations need, turn it into scope and present progress.</span></p>
+        </div>
+        <div class="hw-beat">
+          <span class="hw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8.5 8-4 4 4 4M15.5 8l4 4-4 4M13.3 6l-2.6 12"/></svg></span>
+          <h3><span data-l="es">Reuniones técnicas</span><span data-l="en">Technical meetings</span></h3>
+          <p><span data-l="es">Las decisiones de arquitectura se discuten con el equipo y se dejan escritas, para que no dependan de la memoria.</span><span data-l="en">Architecture decisions are discussed with the team and written down, so they don't depend on memory.</span></p>
+        </div>
+        <div class="hw-beat">
+          <span class="hw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8.5" cy="8.5" r="3"/><circle cx="16.5" cy="9.5" r="2.4"/><path d="M3.5 19v-.6a4.5 4.5 0 0 1 4.5-4.5h1a4.5 4.5 0 0 1 4.5 4.5v.6M15 14.2h1.5a4 4 0 0 1 4 4v.8"/></svg></span>
+          <h3><span data-l="es">Manejo de equipo</span><span data-l="en">Team leadership</span></h3>
+          <p><span data-l="es">Dos personas a cargo: reparto el trabajo, reviso lo que se entrega y acompaño cuando algo se complica.</span><span data-l="en">Two people on my team: I split the work, review what gets delivered and step in when things get hard.</span></p>
+        </div>
+        <div class="hw-beat">
+          <span class="hw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="4.5" width="15" height="15" rx="2.5"/><path d="m8.5 12.2 2.3 2.3 4.7-4.9"/></svg></span>
+          <h3><span data-l="es">Seguimiento en ClickUp</span><span data-l="en">Tracking in ClickUp</span></h3>
+          <p><span data-l="es">Incidencias, evidencias y notas viven en ClickUp, para que cada decisión y cada arreglo tenga rastro.</span><span data-l="en">Issues, evidence and notes live in ClickUp, so every decision and every fix leaves a trail.</span></p>
+        </div>
       </div>
     </div>
-
-    <div class="result">
-      <table>
-        <caption>
-          <span data-l="es">Mismo umbral, misma cobertura. Contra 1.022 posiciones de siembra reales.</span>
-          <span data-l="en">Same threshold, same coverage. Against 1,022 real planting positions.</span>
-        </caption>
-        <thead>
-          <tr>
-            <th><span data-l="es">Modelo</span><span data-l="en">Model</span></th>
-            <th><span data-l="es">Umbral</span><span data-l="en">Threshold</span></th>
-            <th><span data-l="es">Cobertura</span><span data-l="en">Coverage</span></th>
-            <th><span data-l="es">Huecos</span><span data-l="en">Misses</span></th>
-            <th><span data-l="es">Detecciones sobrantes</span><span data-l="en">Spurious detections</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span data-l="es">Sin canal de altura</span><span data-l="en">Without height channel</span></td>
-            <td class="n">0,10</td><td class="n">99,90 %</td><td class="n">1</td><td class="n">23</td>
-          </tr>
-          <tr class="win">
-            <td><span data-l="es">Con canal de altura</span><span data-l="en">With height channel</span></td>
-            <td class="n">0,10</td><td class="n">99,90 %</td><td class="n">1</td><td class="n k">11</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="hw-part">
+      <p class="hw-label"><span class="hw-num">02</span><span data-l="es">El producto, capa por capa</span><span data-l="en">The product, layer by layer</span></p>
+      <p class="hw-intro"><span data-l="es">Desarrollo full stack de principio a fin. Cada capa la diseño y la mantengo yo o mi equipo.</span><span data-l="en">Full-stack development end to end. Every layer is designed and maintained by me or my team.</span></p>
+      <ol class="hw-stack">
+        <li class="hw-layer" style="--k:0">
+          <span class="hw-node" aria-hidden="true"></span>
+          <span class="hw-tag"><span data-l="es">Infraestructura</span><span data-l="en">Infrastructure</span></span>
+          <div class="hw-body"><h3><span data-l="es">AWS, dominios y DNS</span><span data-l="en">AWS, domains and DNS</span></h3><p><span data-l="es">Servicios en AWS, dominios y DNS detrás de Cloudflare, servidores VPS y despliegues centralizados en Dokploy.</span><span data-l="en">Services on AWS, domains and DNS behind Cloudflare, VPS servers and deployments centralised in Dokploy.</span></p></div>
+          <div class="stack"><span class="chip">AWS</span><span class="chip">Cloudflare</span><span class="chip">Contabo</span><span class="chip">Dokploy</span></div>
+        </li>
+        <li class="hw-layer" style="--k:1">
+          <span class="hw-node" aria-hidden="true"></span>
+          <span class="hw-tag"><span data-l="es">Datos</span><span data-l="en">Data</span></span>
+          <div class="hw-body"><h3><span data-l="es">Bases de datos</span><span data-l="en">Databases</span></h3><p><span data-l="es">PostgreSQL con PostGIS para que cada palma tenga su lugar en el mapa: 79 tablas y 133 migraciones de esquema.</span><span data-l="en">PostgreSQL with PostGIS so every palm has its place on the map: 79 tables and 133 schema migrations.</span></p></div>
+          <div class="stack"><span class="chip">PostgreSQL</span><span class="chip">PostGIS</span><span class="chip">Redis</span></div>
+        </li>
+        <li class="hw-layer" style="--k:2">
+          <span class="hw-node" aria-hidden="true"></span>
+          <span class="hw-tag"><span data-l="es">Servicios</span><span data-l="en">Services</span></span>
+          <div class="hw-body"><h3><span data-l="es">APIs</span><span data-l="en">APIs</span></h3><p><span data-l="es">Una plataforma .NET 8 con 450 endpoints y tiempo real, que atiende a la web, al mapa, a la app y a los agentes.</span><span data-l="en">A .NET 8 platform with 450 endpoints and real time, serving the web, the map, the app and the agents.</span></p></div>
+          <div class="stack"><span class="chip">.NET 8</span><span class="chip">CQRS</span><span class="chip">SignalR</span></div>
+        </li>
+        <li class="hw-layer" style="--k:3">
+          <span class="hw-node" aria-hidden="true"></span>
+          <span class="hw-tag"><span data-l="es">Web</span><span data-l="en">Web</span></span>
+          <div class="hw-body"><h3><span data-l="es">Portal en React</span><span data-l="en">React portal</span></h3><p><span data-l="es">El portal de administración: 70.400 líneas de TypeScript, 27 rutas y pruebas automáticas.</span><span data-l="en">The admin portal: 70,400 lines of TypeScript, 27 routes and automated tests.</span></p></div>
+          <div class="stack"><span class="chip">React 19</span><span class="chip">TypeScript</span><span class="chip">Vite</span></div>
+        </li>
+        <li class="hw-layer" style="--k:4">
+          <span class="hw-node" aria-hidden="true"></span>
+          <span class="hw-tag"><span data-l="es">Mapas</span><span data-l="en">Maps</span></span>
+          <div class="hw-body"><h3><span data-l="es">Mapas en JavaScript</span><span data-l="en">Maps in JavaScript</span></h3><p><span data-l="es">Un mapa sin framework para dibujar lotes, ubicar cada planta y revisar lo que propone la IA sobre la imagen del dron.</span><span data-l="en">A framework-free map to draw plots, place every plant and review what the AI proposes on drone imagery.</span></p></div>
+          <div class="stack"><span class="chip">MapLibre</span><span class="chip">WebGL</span><span class="chip">PMTiles</span></div>
+        </li>
+        <li class="hw-layer" style="--k:5">
+          <span class="hw-node" aria-hidden="true"></span>
+          <span class="hw-tag"><span data-l="es">Campo</span><span data-l="en">Field</span></span>
+          <div class="hw-body"><h3><span data-l="es">App en Flutter</span><span data-l="en">Flutter app</span></h3><p><span data-l="es">La aplicación del operario: 65 pantallas, GPS con filtro propio y lectura de etiquetas NFC en cada palma.</span><span data-l="en">The operator's app: 65 screens, GPS with its own filter and NFC tags read at every palm.</span></p></div>
+          <div class="stack"><span class="chip">Flutter</span><span class="chip">GPS</span><span class="chip">NFC</span></div>
+        </li>
+        <li class="hw-layer" style="--k:6">
+          <span class="hw-node" aria-hidden="true"></span>
+          <span class="hw-tag"><span data-l="es">Sin conexión</span><span data-l="en">Offline</span></span>
+          <div class="hw-body"><h3><span data-l="es">Almacenamiento y sincronización</span><span data-l="en">Storage and sync</span></h3><p><span data-l="es">En la plantación casi nunca hay señal: todo se guarda en el teléfono y se sincroniza al volver, incluso por memoria USB.</span><span data-l="en">There's almost never signal in the plantation: everything is stored on the phone and synced later, even over a USB stick.</span></p></div>
+          <div class="stack"><span class="chip">SQLite</span><span class="chip"><span data-l="es">Sincronización</span><span data-l="en">Sync</span></span><span class="chip">USB</span></div>
+        </li>
+      </ol>
     </div>
-
+    <div class="hw-part">
+      <p class="hw-label"><span class="hw-num">03</span><span data-l="es">Agentes de IA, explicados sin tecnicismos</span><span data-l="en">AI agents, explained without jargon</span></p>
+      <div class="hw-agents">
+        <article class="hw-agent wide">
+          <span class="slide-kind"><span data-l="es">Agente</span><span data-l="en">Agent</span></span>
+          <h3><span data-l="es">Una cadena de agentes que explica los datos</span><span data-l="en">A chain of agents that explains the data</span></h3>
+          <p><span data-l="es">Cualquier persona de la empresa pregunta en palabras normales, desde el portal o por mensajería, y recibe la respuesta explicada. Detrás no hay un solo modelo: un agente entiende la pregunta, revisa primero consultas que ya se sabe que funcionan y pide ayuda a agentes expertos en cada tema antes de responder. Si algo se complica, responde con lo que tiene en lugar de fallar, y cada empresa solo ve sus propios datos.</span><span data-l="en">Anyone in the company asks in plain words, from the portal or over messaging, and gets the answer explained. There isn't just one model behind it: one agent understands the question, first checks queries already known to work, and asks expert agents on each topic before answering. If things get hard it answers with what it has instead of failing, and each company only sees its own data.</span></p>
+          <ol class="hw-flow"><li><span data-l="es">Pregunta</span><span data-l="en">Question</span></li><li class="hw-sep" aria-hidden="true">→</li><li><span data-l="es">Agente principal</span><span data-l="en">Lead agent</span></li><li class="hw-sep" aria-hidden="true">→</li><li><span data-l="es">Expertos</span><span data-l="en">Experts</span></li><li class="hw-sep" aria-hidden="true">→</li><li><span data-l="es">Respuesta clara</span><span data-l="en">Clear answer</span></li></ol>
+          <div class="metrics"><div class="metric"><b>118</b><span data-l="es">casos de prueba antes de publicar</span><span data-l="en">test cases before release</span></div><div class="metric"><b class="hi">9 / 9</b><span data-l="es">intentos de manipulación rechazados</span><span data-l="en">manipulation attempts refused</span></div><div class="metric"><b>0</b><span data-l="es">fugas de datos entre empresas</span><span data-l="en">data leaks between companies</span></div></div>
+        </article>
+        <article class="hw-agent">
+          <span class="slide-kind"><span data-l="es">Agente</span><span data-l="en">Agent</span></span>
+          <h3><span data-l="es">Visor de palmas</span><span data-l="en">Palm viewer</span></h3>
+          <p><span data-l="es">Mira las fotos que toma el dron y encuentra cada palma con su posición exacta. Lo que detecta llega al mapa, donde una persona lo revisa y lo adopta: la IA propone y el equipo decide.</span><span data-l="en">It looks at the drone photos and finds every palm with its exact position. What it detects lands on the map, where a person reviews and adopts it: the AI proposes and the team decides.</span></p>
+          <ol class="hw-flow"><li><span data-l="es">Foto del dron</span><span data-l="en">Drone photo</span></li><li class="hw-sep" aria-hidden="true">→</li><li><span data-l="es">Detección</span><span data-l="en">Detection</span></li><li class="hw-sep" aria-hidden="true">→</li><li><span data-l="es">Revisión en el mapa</span><span data-l="en">Review on the map</span></li></ol>
+          <div class="metrics"><div class="metric"><b>76.120</b><span data-l="es">palmas en producción</span><span data-l="en">palms in production</span></div><div class="metric"><b class="hi">0,995</b><span data-l="es">de acierto (F1)</span><span data-l="en">accuracy (F1)</span></div></div>
+        </article>
+        <article class="hw-agent">
+          <span class="slide-kind"><span data-l="es">Agente</span><span data-l="en">Agent</span></span>
+          <h3><span data-l="es">Optimización de rutas</span><span data-l="en">Route optimisation</span></h3>
+          <p><span data-l="es">Calcula el recorrido de cada operario por el lote para visitar miles de palmas en una jornada, sin cruzar los límites del terreno. Se lanza desde el mapa y la ruta llega al equipo de campo.</span><span data-l="en">It works out each operator's path through the plot to visit thousands of palms in a day, without crossing the plot's boundaries. It's launched from the map and the route goes out to the field team.</span></p>
+          <ol class="hw-flow"><li><span data-l="es">Lote</span><span data-l="en">Plot</span></li><li class="hw-sep" aria-hidden="true">→</li><li><span data-l="es">Cálculo de ruta</span><span data-l="en">Route solver</span></li><li class="hw-sep" aria-hidden="true">→</li><li><span data-l="es">Operario en campo</span><span data-l="en">Operator in the field</span></li></ol>
+          <div class="metrics"><div class="metric"><b>76.000<span class="u">+</span></b><span data-l="es">puntos que considera</span><span data-l="en">points considered</span></div><div class="metric"><b class="hi">3</b><span data-l="es">estrategias de búsqueda</span><span data-l="en">search strategies</span></div></div>
+        </article>
+      </div>
+    </div>
     <blockquote>
-      <span data-l="es">Un solo caso crítico impide publicar, por bien que salga el resto. Un asistente que acierta todas las cifras y obedece una inyección es peor que uno que no existe, porque ya se confía en él.</span>
-      <span data-l="en">A single critical case blocks release, however well the rest goes. An assistant that gets every figure right and obeys an injection is worse than one that doesn't exist, because people already trust it.</span>
+      <span data-l="es">Un solo caso crítico impide publicar, por bien que salga el resto. Un asistente que acierta todas las cifras y obedece una inyección es peor que uno que no existe, porque ya se confía en él.</span><span data-l="en">A single critical case blocks release, however well the rest goes. An assistant that gets every figure right and obeys an injection is worse than one that doesn't exist, because people already trust it.</span>
     </blockquote>
     <p class="small" style="margin-top:14px">
-      <span data-l="es">— La regla de salida que escribí para los bancos de pruebas.</span>
-      <span data-l="en">— The release rule I wrote for the evaluation harnesses.</span>
+      <span data-l="es">— La regla de salida que escribí para los agentes.</span><span data-l="en">— The release rule I wrote for the agents.</span>
     </p>
   </div>
 </section>
