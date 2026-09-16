@@ -3,7 +3,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Juan Diego Duque — Arquitecto de soluciones de software e IA aplicada.">
-<title>Juan Diego Duque</title>
+<title>Juan Diego — Portafolio</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,400;0,500;1,6..72,300&family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -1629,6 +1631,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
     root.lang = l;
     langLabel.textContent = l === 'es' ? 'EN' : 'ES';
     langBtn.setAttribute('aria-label', l === 'es' ? 'Switch to English' : 'Cambiar a español');
+    document.title = l === 'es' ? 'Juan Diego — Portafolio' : 'Juan Diego — Portfolio';
   }
   setLang(store.get('jdd-lang') || 'es');
   langBtn.addEventListener('click', () => {
