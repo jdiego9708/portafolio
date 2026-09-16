@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Juan Diego Duque — Arquitecto de soluciones de software e IA aplicada.">
 <title>Juan Diego Duque</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -307,77 +312,160 @@ blockquote {
   color: var(--ink-mid); max-width: 58ch;
 }
 
-/* ── Recorrido: el carril de fases ───────────────────────────────
-   Seis fases en tres filas alineadas. El carril codifica la evolucion:
-   el color viaja del gris al acento, el punto crece, y en las dos
-   ultimas fases la linea se abre en hebras — deja de ser una linea
-   y pasa a ser un sistema.
+/* ── Recorrido: mini línea de tiempo + carrusel ─────────────────
+   Cinco empresas en un carril corto. El relleno del carril avanza hasta
+   la empresa elegida y el carrusel de abajo muestra sus etapas y piezas.
    ─────────────────────────────────────────────────────────────── */
-.tlx-scroll { overflow-x: auto; overscroll-behavior-x: contain; padding-bottom: 4px; }
-.tlx {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(160px, 1fr));
-  grid-template-rows: auto auto auto;
-  gap: 0 16px;
-}
-.tlx > .ph-head { grid-row: 1; align-self: end; display: flex; flex-direction: column; gap: 3px; padding-bottom: 15px; }
-.tlx > .ph-rail { grid-row: 2; position: relative; height: 18px; }
-.tlx > .ph-body { grid-row: 3; display: flex; flex-direction: column; padding-top: 16px; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-.tlx .yr { font-family: var(--mono); font-size: .71rem; letter-spacing: .05em; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
-.tlx .co { font-weight: 600; font-size: .92rem; line-height: 1.28; color: var(--ink); }
-.tlx .role { font-size: .78rem; color: var(--ink-soft); line-height: 1.35; }
+.tl-scroll { overflow-x: auto; scrollbar-width: none; margin-inline: -24px; padding: 4px 24px 2px; }
+.tl-scroll::-webkit-scrollbar { display: none; }
+.tl-tabs { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0 18px; }
+.tl-rail {
+  position: absolute; left: 7px; right: 0; top: 7px; height: 1px; background: var(--line);
+  -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent);
+}
+.tl-fill {
+  position: absolute; left: 0; top: -.5px; height: 2px; width: 0; border-radius: 2px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 22%, transparent), var(--accent));
+  transition: width .8s var(--ease);
+}
+.tl-tab {
+  appearance: none; background: none; border: 0; margin: 0; padding: 0 0 4px; font: inherit; color: inherit;
+  text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 3px; min-width: 0;
+  border-radius: 2px;
+}
+.tl-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
+.tl-dot {
+  position: relative; width: 15px; height: 15px; margin-bottom: 14px;
+  display: grid; place-items: center;
+}
+.tl-dot::before {
+  content: ""; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--ground); border: 1px solid var(--ink-soft);
+  transition: background .35s var(--ease), border-color .35s var(--ease), transform .35s var(--ease);
+}
+.tl-dot::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  border: 1px solid var(--accent); opacity: 0; transform: scale(.6);
+}
+.tl-tab.is-past .tl-dot::before { background: color-mix(in srgb, var(--accent) 35%, var(--ground)); border-color: color-mix(in srgb, var(--accent) 60%, transparent); }
+.tl-tab[aria-selected="true"] .tl-dot::before { background: var(--accent); border-color: var(--accent); transform: scale(1.25); }
+.tl-tab[aria-selected="true"] .tl-dot::after { animation: ping 2.4s var(--ease) infinite; }
+.tl-tab:hover .tl-dot::before { border-color: var(--accent); }
+.tl-yr { font-family: var(--mono); font-size: .7rem; letter-spacing: .05em; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.tl-co { font-weight: 600; font-size: .94rem; line-height: 1.28; color: var(--ink-mid); transition: color .25s var(--ease); }
+.tl-role { font-size: .77rem; color: var(--ink-soft); line-height: 1.35; }
+.tl-tab:hover .tl-co, .tl-tab[aria-selected="true"] .tl-co { color: var(--ink); }
+.tl-tab[aria-selected="true"] .tl-yr { color: var(--accent); }
 
-.ph-rail::before {
-  content: ""; position: absolute; left: 0; right: -16px; top: 8px; height: 1px;
-  background: var(--seg);
+.tl-stage { margin-top: clamp(30px, 4vw, 46px); }
+.tl-panel[hidden] { display: none; }
+.tl-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px 28px; margin-bottom: 18px; }
+.tl-lead { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.tl-sub { font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.tl-lede { font-family: var(--serif); font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.3; color: var(--ink); max-width: 52ch; }
+.tl-ctrl { display: flex; align-items: center; gap: 10px; flex: none; }
+.tl-count { font-family: var(--mono); font-size: .74rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; margin-right: 6px; }
+.tl-count b { font-weight: 500; color: var(--ink); }
+.tl-btn {
+  appearance: none; width: 42px; height: 42px; border-radius: 50%; padding: 0; cursor: pointer;
+  display: grid; place-items: center; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line);
+  transition: border-color .2s var(--ease), color .2s var(--ease), transform .2s var(--ease), box-shadow .25s var(--ease), opacity .2s var(--ease);
 }
-.ph-rail.end::before { right: 0; }
-.ph-rail .dot {
-  position: absolute; left: 0; top: 8px; transform: translate(-50%, -50%);
-  width: var(--d); height: var(--d); border-radius: 50%;
-  background: var(--ground); border: 1px solid var(--seg); box-sizing: border-box;
-}
-.ph-rail.on .dot { background: var(--accent); border-color: var(--accent); }
-.ph-rail.on .dot::after {
-  content: ""; position: absolute; inset: -5px; border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
-}
-.ph-rail.fan::after {
-  content: ""; position: absolute; left: 6px; right: -16px; top: 1px; height: 15px;
-  border-top: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
-  border-radius: 60% / 100%;
-}
-.ph-rail.p1 { --seg: var(--line); --d: 7px; }
-.ph-rail.p2 { --seg: color-mix(in srgb, var(--accent) 18%, var(--line)); --d: 7px; }
-.ph-rail.p3 { --seg: color-mix(in srgb, var(--accent) 34%, var(--line)); --d: 8px; }
-.ph-rail.p4 { --seg: color-mix(in srgb, var(--accent) 52%, var(--line)); --d: 9px; }
-.ph-rail.p5 { --seg: color-mix(in srgb, var(--accent) 74%, var(--line)); --d: 10px; }
-.ph-rail.p6 { --seg: var(--accent); --d: 11px; }
+.tl-btn svg { width: 17px; height: 17px; }
+.tl-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow); }
+.tl-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.tl-btn:disabled { opacity: .35; cursor: default; }
 
-.tlx .lbl { font-family: var(--mono); font-size: .59rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
-.tlx .lbl + p { margin-top: 4px; margin-bottom: 12px; }
-.tlx p { font-size: .8rem; line-height: 1.5; color: var(--ink-mid); max-width: none; }
-.tlx p.hit { color: var(--ink); margin-bottom: 0; }
-.tlx p.hit b { font-family: var(--mono); font-weight: 500; color: var(--warm); font-variant-numeric: tabular-nums; }
+.tl-track {
+  position: relative; display: flex; gap: 18px;
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  scrollbar-width: none; padding: 8px 2px 26px; margin: -8px -2px 0;
+  --fl: 0px; --fr: 0px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--fl), #000 calc(100% - var(--fr)), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 var(--fl), #000 calc(100% - var(--fr)), transparent 100%);
+}
+.tl-track::-webkit-scrollbar { display: none; }
+.tl-track.fade-l { --fl: 56px; }
+.tl-track.fade-r { --fr: 72px; }
+.tl-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
 
-@media (max-width: 720px) {
-  .tlx-scroll { overflow-x: visible; }
-  .tlx { grid-template-columns: 1fr; gap: 0; }
-  .tlx > * { grid-row: auto; }
-  .tlx > .ph-head {
-    align-self: start; position: relative;
-    padding: 24px 0 10px 24px; border-left: 1px solid var(--line);
-  }
-  .tlx > .ph-head::before {
-    content: ""; position: absolute; left: -4px; top: 30px;
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--ground); border: 1px solid var(--accent); box-sizing: border-box;
-  }
-  .tlx > .ph-body { padding: 0 0 6px 24px; border-left: 1px solid var(--line); }
-  .tlx > .ph-rail { height: 0; }
-  .ph-rail::before, .ph-rail::after, .ph-rail .dot { display: none; }
+.slide {
+  position: relative; flex: 0 0 min(540px, 88%); scroll-snap-align: start;
+  display: flex; flex-direction: column; gap: 14px;
+  padding: 26px 26px 22px; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--line-soft); border-radius: 6px;
+  box-shadow: var(--shadow);
+  opacity: .48; transform: scale(.975); transform-origin: left center;
+  transition: opacity .5s var(--ease), transform .5s var(--ease), border-color .3s var(--ease);
+}
+.slide::before {
+  content: ""; position: absolute; left: 0; top: 0; height: 2px; width: 100%;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 10%, transparent));
+  transform: scaleX(0); transform-origin: left; transition: transform .9s var(--ease);
+}
+.slide.is-active { opacity: 1; transform: none; border-color: var(--line); }
+.slide.is-active::before { transform: scaleX(1); }
+.slide-n {
+  position: absolute; right: 22px; top: 14px; font-family: var(--mono); font-size: 2.7rem; line-height: 1;
+  color: transparent; -webkit-text-stroke: 1px var(--line); pointer-events: none; user-select: none;
+}
+.slide-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-right: 64px; }
+.slide-kind { font-family: var(--mono); font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+.slide-yr { font-family: var(--mono); font-size: .72rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.slide-top .tag { align-self: center; }
+.slide-title { margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(1.2rem, 2vw, 1.45rem); line-height: 1.22; letter-spacing: -.01em; color: var(--ink); padding-right: 40px; text-wrap: balance; }
+.slide-text { font-size: .92rem; line-height: 1.62; color: var(--ink-mid); }
+.slide.is-stage .slide-text { font-family: var(--serif); font-size: clamp(1.12rem, 1.8vw, 1.3rem); line-height: 1.45; color: var(--ink); max-width: 40ch; }
+.slide.is-stage .slide-title { font-family: var(--sans); font-weight: 600; font-size: .98rem; letter-spacing: 0; color: var(--ink-mid); }
+.slide-hit { border-left: 2px solid var(--accent); padding: 2px 0 2px 14px; display: flex; flex-direction: column; gap: 3px; margin-top: auto; }
+.slide-lbl { font-family: var(--mono); font-size: .6rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+.slide-hit p { font-size: .9rem; line-height: 1.5; color: var(--ink); }
+.slide-hit b { font-family: var(--mono); font-weight: 500; color: var(--warm); font-variant-numeric: tabular-nums; }
+.slide .metrics { border-radius: 3px; overflow: hidden; }
+.slide .metric { padding: 10px 12px 11px; flex-basis: 120px; }
+.slide .metric b { font-size: .95rem; }
+.slide .metric span { font-size: .72rem; }
+.slide-foot { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 18px; }
+.slide.is-active .chip { border-color: var(--line); color: var(--ink-mid); }
+.slide-link {
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .06em; color: var(--accent);
+}
+.slide-link span[aria-hidden] { transition: transform .25s var(--ease); }
+.slide-link:hover span[aria-hidden] { transform: translateX(4px); }
+.slide-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+.tl-pips { display: flex; gap: 6px; margin-top: 2px; }
+.tl-pip { appearance: none; background: none; border: 0; padding: 0; cursor: pointer; flex: 0 1 44px; height: 14px; position: relative; }
+.tl-pip::before { content: ""; position: absolute; left: 0; right: 0; top: 6px; height: 2px; border-radius: 2px; background: var(--line); transition: background .35s var(--ease); }
+.tl-pip:hover::before { background: var(--ink-soft); }
+.tl-pip[aria-current="true"]::before { background: var(--accent); }
+.tl-pip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+/* Entrada al cambiar de empresa: solo "desde", para que al terminar mande el estilo normal */
+.tl-panel.enter .tl-head { animation: tl-head .55s var(--ease) backwards; }
+.tl-panel.enter .slide { animation: tl-in .7s var(--ease) backwards; animation-delay: calc(var(--i, 0) * 70ms + 60ms); }
+@keyframes tl-head { from { opacity: 0; transform: translateY(8px); } }
+@keyframes tl-in { from { opacity: 0; transform: translateX(36px) scale(.975); } }
+
+@media (max-width: 860px) {
+  .tl-tabs { grid-template-columns: repeat(5, 178px); }
+}
+@media (max-width: 560px) {
+  .tl-scroll { margin-inline: -18px; padding-inline: 18px; }
+  .tl-head { align-items: flex-start; flex-direction: column; }
+  .tl-ctrl { align-self: stretch; }
+  .tl-count { margin-right: auto; }
+  .slide { flex-basis: 90%; padding: 22px 20px 20px; }
+  .slide-n { font-size: 2.2rem; right: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tl-track { scroll-behavior: auto; }
+  .tl-panel.enter .tl-head, .tl-panel.enter .slide { animation: none; }
+  .tl-tab[aria-selected="true"] .tl-dot::after { animation: none; }
 }
 
 /* ── Competencias ────────────────────────────────────────────── */
@@ -529,143 +617,242 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
       </p>
     </div>
 
-    <div class="tlx-scroll">
-      <div class="tlx">
-
-        <div class="ph-head">
-          <span class="yr">2016 — 2020</span>
-          <span class="co">Universidad Católica de Manizales</span>
-          <span class="role" data-l="es">Administrador de sistemas</span>
-          <span class="role" data-l="en">Systems administrator</span>
+    <div class="tl" id="tl">
+      <div class="tl-scroll">
+        <div class="tl-tabs" role="tablist" aria-label="Recorrido">
+          <span class="tl-rail" aria-hidden="true"><span class="tl-fill"></span></span>
+        <button class="tl-tab" type="button" role="tab" id="tlt-0" aria-controls="tlp-0" aria-selected="false" tabindex="-1">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <span class="tl-yr">2016 — 2020</span>
+          <span class="tl-co">Universidad Católica de Manizales</span>
+          <span class="tl-role"><span data-l="es">Administrador de sistemas</span><span data-l="en">Systems administrator</span></span>
+        </button>
+        <button class="tl-tab" type="button" role="tab" id="tlt-1" aria-controls="tlp-1" aria-selected="false" tabindex="-1">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <span class="tl-yr">2017 — 2023</span>
+          <span class="tl-co">Freelance</span>
+          <span class="tl-role"><span data-l="es">Desarrollador de producto</span><span data-l="en">Product developer</span></span>
+        </button>
+        <button class="tl-tab" type="button" role="tab" id="tlt-2" aria-controls="tlp-2" aria-selected="false" tabindex="-1">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <span class="tl-yr">2021 — 2022</span>
+          <span class="tl-co">Transfiriendo SA</span>
+          <span class="tl-role"><span data-l="es">Desarrollador senior</span><span data-l="en">Senior developer</span></span>
+        </button>
+        <button class="tl-tab" type="button" role="tab" id="tlt-3" aria-controls="tlp-3" aria-selected="false" tabindex="-1">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <span class="tl-yr">2022 — 2023</span>
+          <span class="tl-co">FIBO Technologies</span>
+          <span class="tl-role"><span data-l="es">Jefe de proyecto</span><span data-l="en">Project lead</span></span>
+        </button>
+        <button class="tl-tab" type="button" role="tab" id="tlt-4" aria-controls="tlp-4" aria-selected="true" tabindex="0">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <span class="tl-yr">2023 — <span data-l="es">hoy</span><span data-l="en">today</span></span>
+          <span class="tl-co">ClickPalm</span>
+          <span class="tl-role"><span data-l="es">Arquitecto de software e IA aplicada</span><span data-l="en">Software architect, applied AI</span></span>
+        </button>
         </div>
-        <div class="ph-rail p1" aria-hidden="true"><span class="dot"></span></div>
-        <div class="ph-body">
-          <span class="lbl" data-l="es">Modo de trabajo</span>
-          <span class="lbl" data-l="en">Way of working</span>
-          <p>
-            <span data-l="es">WinForms y SQL escrito a mano dentro de cadenas de texto. Sin ORM y sin nada que ayude.</span>
-            <span data-l="en">WinForms and SQL hand-written inside strings. No ORM, nothing helping.</span>
-          </p>
-          <span class="lbl" data-l="es">Hito</span>
-          <span class="lbl" data-l="en">Milestone</span>
-          <p class="hit">
-            <span data-l="es">Un agente propio en C# sobre TCP controlando <b>130</b> equipos desde una consola.</span>
-            <span data-l="en">My own C# agent over TCP driving <b>130</b> machines from one console.</span>
-          </p>
+      </div>
+      <div class="tl-stage">
+    <div class="tl-panel" role="tabpanel" id="tlp-0" aria-labelledby="tlt-0" hidden>
+      <div class="tl-head">
+        <div class="tl-lead">
+          <p class="tl-sub">01 / 05 · Universidad Católica de Manizales</p>
+          <p class="tl-lede"><span data-l="es">Más de veinte laboratorios y mil equipos, y ningún inventario fiable.</span><span data-l="en">Over twenty labs and a thousand machines, and no reliable inventory.</span></p>
         </div>
-
-        <div class="ph-head">
-          <span class="yr">2017 — 2023</span>
-          <span class="co" data-l="es">Freelance</span>
-          <span class="co" data-l="en">Freelance</span>
-          <span class="role" data-l="es">Desarrollador de producto</span>
-          <span class="role" data-l="en">Product developer</span>
+        <div class="tl-ctrl">
+          <span class="tl-count" aria-live="polite"><b>01</b> / 02</span>
+          <button class="tl-btn" type="button" data-dir="-1"><span class="sr-only"><span data-l="es">Anterior</span><span data-l="en">Previous</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button>
+          <button class="tl-btn" type="button" data-dir="1"><span class="sr-only"><span data-l="es">Siguiente</span><span data-l="en">Next</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button>
         </div>
-        <div class="ph-rail p2" aria-hidden="true"><span class="dot"></span></div>
-        <div class="ph-body">
-          <span class="lbl" data-l="es">Modo de trabajo</span>
-          <span class="lbl" data-l="en">Way of working</span>
-          <p>
-            <span data-l="es">Cinco capas, informes RDLC y controles propios. El mismo núcleo, industrializado para dos clientes.</span>
-            <span data-l="en">Five layers, RDLC reports and bespoke controls. One core, productised for two clients.</span>
-          </p>
-          <span class="lbl" data-l="es">Hito</span>
-          <span class="lbl" data-l="en">Milestone</span>
-          <p class="hit">
-            <span data-l="es">Un punto de venta que lleva <b>5</b> años en producción.</span>
-            <span data-l="en">A point-of-sale system <b>5</b> years into production.</span>
-          </p>
+      </div>
+      <div class="tl-track" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Universidad Católica de Manizales">
+          <article class="slide is-stage" role="group" aria-roledescription="slide" aria-label="1 / 2">
+            <span class="slide-n" aria-hidden="true">01</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Etapa</span><span data-l="en">Stage</span></span><span class="slide-yr">2016 — 2020</span></div>
+            <h4 class="slide-title"><span data-l="es">Administrador de sistemas</span><span data-l="en">Systems administrator</span></h4>
+            <p class="slide-text"><span data-l="es">WinForms y SQL escrito a mano dentro de cadenas de texto. Sin ORM y sin nada que ayude.</span><span data-l="en">WinForms and SQL hand-written inside strings. No ORM, nothing helping.</span></p>
+            <div class="slide-hit"><span class="slide-lbl"><span data-l="es">Hito</span><span data-l="en">Milestone</span></span><p><span data-l="es">Un agente propio en C# sobre TCP controlando <b>130</b> equipos desde una consola.</span><span data-l="en">My own C# agent over TCP driving <b>130</b> machines from one console.</span></p></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="2 / 2">
+            <span class="slide-n" aria-hidden="true">02</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2016 — 2020</span><span class="tag hand" data-l="es">A mano</span><span class="tag hand" data-l="en">By hand</span></div>
+            <h4 class="slide-title"><span data-l="es">Un agente en red para 130 equipos, y el sistema que los gobernaba</span><span data-l="en">A network agent for 130 machines, and the system that governed them</span></h4>
+            <p class="slide-text"><span data-l="es">El sistema que administraba préstamos, mantenimientos y hojas de vida de cada máquina, y sobre él un agente propio en C# que hablaba por TCP con cada computador de la red.</span><span data-l="en">The system that handled loans, maintenance and per-machine service records, and on top of it my own C# agent talking over TCP to every computer on the network.</span></p>
+            <div class="metrics"><div class="metric"><b>20<span class="u">+</span></b><span data-l="es">laboratorios administrados</span><span data-l="en">labs administered</span></div><div class="metric"><b>1.000<span class="u">+</span></b><span data-l="es">equipos en inventario</span><span data-l="en">machines under inventory</span></div><div class="metric"><b class="hi">130</b><span data-l="es">agentes en red, desde una consola</span><span data-l="en">networked agents, from one console</span></div></div>
+            <div class="slide-foot"><div class="stack"><span class="chip">C#</span><span class="chip">.NET Framework</span><span class="chip">WinForms</span><span class="chip">TCP/IP</span></div><a class="slide-link" href="#w-red"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
+          </article>
+      </div>
+      <div class="tl-pips"><button class="tl-pip" type="button" data-go="0"><span class="sr-only"><span data-l="es">Ir a la diapositiva 1</span><span data-l="en">Go to slide 1</span></span></button><button class="tl-pip" type="button" data-go="1"><span class="sr-only"><span data-l="es">Ir a la diapositiva 2</span><span data-l="en">Go to slide 2</span></span></button></div>
+    </div>
+    <div class="tl-panel" role="tabpanel" id="tlp-1" aria-labelledby="tlt-1" hidden>
+      <div class="tl-head">
+        <div class="tl-lead">
+          <p class="tl-sub">02 / 05 · Freelance</p>
+          <p class="tl-lede"><span data-l="es">Productos propios y a medida, del escritorio al móvil.</span><span data-l="en">Own and bespoke products, from desktop to mobile.</span></p>
         </div>
-
-        <div class="ph-head">
-          <span class="yr">2021 — 2022</span>
-          <span class="co">Transfiriendo SA</span>
-          <span class="role" data-l="es">Desarrollador senior</span>
-          <span class="role" data-l="en">Senior developer</span>
+        <div class="tl-ctrl">
+          <span class="tl-count" aria-live="polite"><b>01</b> / 03</span>
+          <button class="tl-btn" type="button" data-dir="-1"><span class="sr-only"><span data-l="es">Anterior</span><span data-l="en">Previous</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button>
+          <button class="tl-btn" type="button" data-dir="1"><span class="sr-only"><span data-l="es">Siguiente</span><span data-l="en">Next</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button>
         </div>
-        <div class="ph-rail p3" aria-hidden="true"><span class="dot"></span></div>
-        <div class="ph-body">
-          <span class="lbl" data-l="es">Modo de trabajo</span>
-          <span class="lbl" data-l="en">Way of working</span>
-          <p>
-            <span data-l="es">API REST y Angular en un dominio regulado, donde equivocarse tiene consecuencias legales.</span>
-            <span data-l="en">REST API and Angular in a regulated domain, where a mistake has legal consequences.</span>
-          </p>
-          <span class="lbl" data-l="es">Hito</span>
-          <span class="lbl" data-l="en">Milestone</span>
-          <p class="hit">
-            <span data-l="es">La herramienta de nómina electrónica, construida desde cero.</span>
-            <span data-l="en">The electronic payroll tool, built from scratch.</span>
-          </p>
+      </div>
+      <div class="tl-track" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Freelance">
+          <article class="slide is-stage" role="group" aria-roledescription="slide" aria-label="1 / 3">
+            <span class="slide-n" aria-hidden="true">01</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Etapa</span><span data-l="en">Stage</span></span><span class="slide-yr">2017 — 2023</span></div>
+            <h4 class="slide-title"><span data-l="es">Desarrollador de producto</span><span data-l="en">Product developer</span></h4>
+            <p class="slide-text"><span data-l="es">Cinco capas, informes RDLC y controles propios. El mismo núcleo, industrializado para dos clientes.</span><span data-l="en">Five layers, RDLC reports and bespoke controls. One core, productised for two clients.</span></p>
+            <div class="slide-hit"><span class="slide-lbl"><span data-l="es">Hito</span><span data-l="en">Milestone</span></span><p><span data-l="es">Un punto de venta que lleva <b>5</b> años en producción.</span><span data-l="en">A point-of-sale system <b>5</b> years into production.</span></p></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="2 / 3">
+            <span class="slide-n" aria-hidden="true">02</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2020 — 2022</span><span class="tag hand" data-l="es">A mano</span><span class="tag hand" data-l="en">By hand</span><span class="tag own" data-l="es">Producto propio</span><span class="tag own" data-l="en">Own product</span></div>
+            <h4 class="slide-title"><span data-l="es">SISWallet, una cartera de cobros y costos en el móvil</span><span data-l="en">SISWallet, a receivables and costs wallet on mobile</span></h4>
+            <p class="slide-text"><span data-l="es">Cobros, costos y saldos desde el teléfono, con API propia y panel de administración. Mi primer producto multiplataforma y la primera vez que separé el backend desde el primer día.</span><span data-l="en">Receivables, costs and balances from the phone, with its own API and admin panel. My first truly cross-platform product, and the first time I split out the backend from day one.</span></p>
+            <div class="slide-foot"><div class="stack"><span class="chip">C#</span><span class="chip">.NET MAUI</span><span class="chip">Web API</span><span class="chip">SQL Server</span></div><a class="slide-link" href="#w-siswallet"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="3 / 3">
+            <span class="slide-n" aria-hidden="true">03</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2021 — <span data-l="es">hoy</span><span data-l="en">today</span></span><span class="tag hand" data-l="es">A mano</span><span class="tag hand" data-l="en">By hand</span></div>
+            <h4 class="slide-title"><span data-l="es">Punto de venta y facturación, cinco años en producción</span><span data-l="en">Point of sale and invoicing, five years in production</span></h4>
+            <p class="slide-text"><span data-l="es">Ciclo completo de restaurante, de la comanda al cierre de turno. El mismo núcleo, industrializado para un segundo cliente y con mantenimiento en 2026.</span><span data-l="en">The full restaurant cycle, from kitchen ticket to end of shift. The same core, productised for a second client and still maintained in 2026.</span></p>
+            <div class="metrics"><div class="metric"><b class="hi">5</b><span data-l="es">años en producción, sin interrupción</span><span data-l="en">years in production, uninterrupted</span></div><div class="metric"><b>2</b><span data-l="es">clientes, con instalador propio cada uno</span><span data-l="en">clients, each with its own installer</span></div><div class="metric"><b>138</b><span data-l="es">formularios entre las dos variantes</span><span data-l="en">forms across the two variants</span></div></div>
+            <div class="slide-foot"><div class="stack"><span class="chip">.NET Framework 4.8</span><span class="chip">WinForms</span><span class="chip">SQL Server</span><span class="chip">ADO.NET</span></div><a class="slide-link" href="#w-pos"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
+          </article>
+      </div>
+      <div class="tl-pips"><button class="tl-pip" type="button" data-go="0"><span class="sr-only"><span data-l="es">Ir a la diapositiva 1</span><span data-l="en">Go to slide 1</span></span></button><button class="tl-pip" type="button" data-go="1"><span class="sr-only"><span data-l="es">Ir a la diapositiva 2</span><span data-l="en">Go to slide 2</span></span></button><button class="tl-pip" type="button" data-go="2"><span class="sr-only"><span data-l="es">Ir a la diapositiva 3</span><span data-l="en">Go to slide 3</span></span></button></div>
+    </div>
+    <div class="tl-panel" role="tabpanel" id="tlp-2" aria-labelledby="tlt-2" hidden>
+      <div class="tl-head">
+        <div class="tl-lead">
+          <p class="tl-sub">03 / 05 · Transfiriendo SA</p>
+          <p class="tl-lede"><span data-l="es">Facturación y nómina electrónica, en un dominio regulado.</span><span data-l="en">Electronic invoicing and payroll, in a regulated domain.</span></p>
         </div>
-
-        <div class="ph-head">
-          <span class="yr">2022 — 2023</span>
-          <span class="co">FIBO Technologies</span>
-          <span class="role" data-l="es">Jefe de proyecto</span>
-          <span class="role" data-l="en">Project lead</span>
+        <div class="tl-ctrl">
+          <span class="tl-count" aria-live="polite"><b>01</b> / 02</span>
+          <button class="tl-btn" type="button" data-dir="-1"><span class="sr-only"><span data-l="es">Anterior</span><span data-l="en">Previous</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button>
+          <button class="tl-btn" type="button" data-dir="1"><span class="sr-only"><span data-l="es">Siguiente</span><span data-l="en">Next</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button>
         </div>
-        <div class="ph-rail p4" aria-hidden="true"><span class="dot"></span></div>
-        <div class="ph-body">
-          <span class="lbl" data-l="es">Modo de trabajo</span>
-          <span class="lbl" data-l="en">Way of working</span>
-          <p>
-            <span data-l="es">Deja de escribirlo todo: estima, reparte y revisa. El código de otros empieza a importar.</span>
-            <span data-l="en">Stops writing everything: estimates, delegates, reviews. Other people's code starts to matter.</span>
-          </p>
-          <span class="lbl" data-l="es">Hito</span>
-          <span class="lbl" data-l="en">Milestone</span>
-          <p class="hit">
-            <span data-l="es">Plataforma de criptomonedas en .NET 6 con seguridad híbrida en blockchain.</span>
-            <span data-l="en">A cryptocurrency platform on .NET 6 with hybrid blockchain security.</span>
-          </p>
+      </div>
+      <div class="tl-track" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Transfiriendo SA">
+          <article class="slide is-stage" role="group" aria-roledescription="slide" aria-label="1 / 2">
+            <span class="slide-n" aria-hidden="true">01</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Etapa</span><span data-l="en">Stage</span></span><span class="slide-yr">2021 — 2022</span></div>
+            <h4 class="slide-title"><span data-l="es">Desarrollador senior</span><span data-l="en">Senior developer</span></h4>
+            <p class="slide-text"><span data-l="es">API REST y Angular en un dominio regulado, donde equivocarse tiene consecuencias legales.</span><span data-l="en">REST API and Angular in a regulated domain, where a mistake has legal consequences.</span></p>
+            <div class="slide-hit"><span class="slide-lbl"><span data-l="es">Hito</span><span data-l="en">Milestone</span></span><p><span data-l="es">La herramienta de nómina electrónica, construida desde cero.</span><span data-l="en">The electronic payroll tool, built from scratch.</span></p></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="2 / 2">
+            <span class="slide-n" aria-hidden="true">02</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2021 — 2022</span><span class="tag hand" data-l="es">A mano</span><span class="tag hand" data-l="en">By hand</span></div>
+            <h4 class="slide-title"><span data-l="es">Nómina electrónica, donde el error se paga caro</span><span data-l="en">Electronic payroll, where mistakes are costly</span></h4>
+            <p class="slide-text"><span data-l="es">La herramienta de emisión de nómina electrónica, construida desde cero, y el mantenimiento de la plataforma de facturación que la rodea: un software que responde a una norma externa.</span><span data-l="en">The electronic payroll issuing tool, built from scratch, and upkeep of the invoicing platform around it: software that answers to an external standard.</span></p>
+            <div class="slide-foot"><div class="stack"><span class="chip">.NET Framework</span><span class="chip">C#</span><span class="chip">Angular</span><span class="chip">SOAP</span></div><a class="slide-link" href="#w-nomina"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
+          </article>
+      </div>
+      <div class="tl-pips"><button class="tl-pip" type="button" data-go="0"><span class="sr-only"><span data-l="es">Ir a la diapositiva 1</span><span data-l="en">Go to slide 1</span></span></button><button class="tl-pip" type="button" data-go="1"><span class="sr-only"><span data-l="es">Ir a la diapositiva 2</span><span data-l="en">Go to slide 2</span></span></button></div>
+    </div>
+    <div class="tl-panel" role="tabpanel" id="tlp-3" aria-labelledby="tlt-3" hidden>
+      <div class="tl-head">
+        <div class="tl-lead">
+          <p class="tl-sub">04 / 05 · FIBO Technologies</p>
+          <p class="tl-lede"><span data-l="es">Una plataforma de criptomonedas desde cero, con un equipo a cargo.</span><span data-l="en">A cryptocurrency platform from scratch, leading a team.</span></p>
         </div>
-
-        <div class="ph-head">
-          <span class="yr">2023 — 2024</span>
-          <span class="co">ClickPalm</span>
-          <span class="role" data-l="es">Arquitecto de software</span>
-          <span class="role" data-l="en">Software architect</span>
+        <div class="tl-ctrl">
+          <span class="tl-count" aria-live="polite"><b>01</b> / 02</span>
+          <button class="tl-btn" type="button" data-dir="-1"><span class="sr-only"><span data-l="es">Anterior</span><span data-l="en">Previous</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button>
+          <button class="tl-btn" type="button" data-dir="1"><span class="sr-only"><span data-l="es">Siguiente</span><span data-l="en">Next</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button>
         </div>
-        <div class="ph-rail p5 fan" aria-hidden="true"><span class="dot"></span></div>
-        <div class="ph-body">
-          <span class="lbl" data-l="es">Modo de trabajo</span>
-          <span class="lbl" data-l="en">Way of working</span>
-          <p>
-            <span data-l="es">El diseño manda sobre la sintaxis. Clean Architecture, CQRS, y una migración hecha con red.</span>
-            <span data-l="en">Design outranks syntax. Clean Architecture, CQRS, and a migration done with a safety net.</span>
-          </p>
-          <span class="lbl" data-l="es">Hito</span>
-          <span class="lbl" data-l="en">Milestone</span>
-          <p class="hit">
-            <span data-l="es"><b>450</b> endpoints, y el sistema heredado migrado sin parar el negocio.</span>
-            <span data-l="en"><b>450</b> endpoints, and the legacy system migrated without stopping the business.</span>
-          </p>
+      </div>
+      <div class="tl-track" tabindex="0" role="region" aria-roledescription="carousel" aria-label="FIBO Technologies">
+          <article class="slide is-stage" role="group" aria-roledescription="slide" aria-label="1 / 2">
+            <span class="slide-n" aria-hidden="true">01</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Etapa</span><span data-l="en">Stage</span></span><span class="slide-yr">2022 — 2023</span></div>
+            <h4 class="slide-title"><span data-l="es">Jefe de proyecto</span><span data-l="en">Project lead</span></h4>
+            <p class="slide-text"><span data-l="es">Deja de escribirlo todo: estima, reparte y revisa. El código de otros empieza a importar.</span><span data-l="en">Stops writing everything: estimates, delegates, reviews. Other people's code starts to matter.</span></p>
+            <div class="slide-hit"><span class="slide-lbl"><span data-l="es">Hito</span><span data-l="en">Milestone</span></span><p><span data-l="es">Plataforma de criptomonedas en .NET 6 con seguridad híbrida en blockchain.</span><span data-l="en">A cryptocurrency platform on .NET 6 with hybrid blockchain security.</span></p></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="2 / 2">
+            <span class="slide-n" aria-hidden="true">02</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2022 — 2023</span><span class="tag hand" data-l="es">A mano</span><span class="tag hand" data-l="en">By hand</span></div>
+            <h4 class="slide-title"><span data-l="es">Un monedero de criptomonedas con las claves generadas en casa</span><span data-l="en">A cryptocurrency wallet with keys generated in-house</span></h4>
+            <p class="slide-text"><span data-l="es">Un monedero con pares de claves generados en casa, seguridad híbrida en blockchain llevada al código desde la literatura académica y transacciones reales contra Coinbase.</span><span data-l="en">A wallet with key pairs generated in-house, hybrid blockchain security taken from academic literature into code, and real transactions against Coinbase.</span></p>
+            <div class="slide-foot"><div class="stack"><span class="chip">.NET 6</span><span class="chip">C#</span><span class="chip">Azure</span><span class="chip">Blockchain</span></div><a class="slide-link" href="#w-cripto"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
+          </article>
+      </div>
+      <div class="tl-pips"><button class="tl-pip" type="button" data-go="0"><span class="sr-only"><span data-l="es">Ir a la diapositiva 1</span><span data-l="en">Go to slide 1</span></span></button><button class="tl-pip" type="button" data-go="1"><span class="sr-only"><span data-l="es">Ir a la diapositiva 2</span><span data-l="en">Go to slide 2</span></span></button></div>
+    </div>
+    <div class="tl-panel" role="tabpanel" id="tlp-4" aria-labelledby="tlt-4">
+      <div class="tl-head">
+        <div class="tl-lead">
+          <p class="tl-sub">05 / 05 · ClickPalm</p>
+          <p class="tl-lede"><span data-l="es">Agricultura de precisión: control operativo de plantaciones de palma de aceite, palma por palma.</span><span data-l="en">Precision agriculture: operational control of oil palm plantations, palm by palm.</span></p>
         </div>
-
-        <div class="ph-head">
-          <span class="yr" data-l="es">2024 — hoy</span>
-          <span class="yr" data-l="en">2024 — today</span>
-          <span class="co">ClickPalm</span>
-          <span class="role" data-l="es">Arquitecto e IA aplicada</span>
-          <span class="role" data-l="en">Architect, applied AI</span>
+        <div class="tl-ctrl">
+          <span class="tl-count" aria-live="polite"><b>01</b> / 07</span>
+          <button class="tl-btn" type="button" data-dir="-1"><span class="sr-only"><span data-l="es">Anterior</span><span data-l="en">Previous</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button>
+          <button class="tl-btn" type="button" data-dir="1"><span class="sr-only"><span data-l="es">Siguiente</span><span data-l="en">Next</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button>
         </div>
-        <div class="ph-rail p6 fan on end" aria-hidden="true"><span class="dot"></span></div>
-        <div class="ph-body">
-          <span class="lbl" data-l="es">Modo de trabajo</span>
-          <span class="lbl" data-l="en">Way of working</span>
-          <p>
-            <span data-l="es">Orquesta agentes bajo reglas escritas y verifica lo que producen. El esfuerzo se va al criterio y a la medición.</span>
-            <span data-l="en">Orchestrates agents under written rules and verifies what they produce. The effort moves to judgement and measurement.</span>
-          </p>
-          <span class="lbl" data-l="es">Hito</span>
-          <span class="lbl" data-l="en">Milestone</span>
-          <p class="hit">
-            <span data-l="es"><b>89</b> modelos entrenados, F1 de <b>0,995</b>, y dos bancos que deciden si algo se publica.</span>
-            <span data-l="en"><b>89</b> models trained, F1 of <b>0.995</b>, and two harnesses that decide whether anything ships.</span>
-          </p>
-        </div>
-
+      </div>
+      <div class="tl-track" tabindex="0" role="region" aria-roledescription="carousel" aria-label="ClickPalm">
+          <article class="slide is-stage" role="group" aria-roledescription="slide" aria-label="1 / 7">
+            <span class="slide-n" aria-hidden="true">01</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Etapa</span><span data-l="en">Stage</span></span><span class="slide-yr">2023 — 2024</span></div>
+            <h4 class="slide-title"><span data-l="es">Arquitecto de software</span><span data-l="en">Software architect</span></h4>
+            <p class="slide-text"><span data-l="es">El diseño manda sobre la sintaxis. Clean Architecture, CQRS, y una migración hecha con red.</span><span data-l="en">Design outranks syntax. Clean Architecture, CQRS, and a migration done with a safety net.</span></p>
+            <div class="slide-hit"><span class="slide-lbl"><span data-l="es">Hito</span><span data-l="en">Milestone</span></span><p><span data-l="es"><b>450</b> endpoints, y el sistema heredado migrado sin parar el negocio.</span><span data-l="en"><b>450</b> endpoints, and the legacy system migrated without stopping the business.</span></p></div>
+          </article>
+          <article class="slide is-stage" role="group" aria-roledescription="slide" aria-label="2 / 7">
+            <span class="slide-n" aria-hidden="true">02</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Etapa</span><span data-l="en">Stage</span></span><span class="slide-yr">2024 — <span data-l="es">hoy</span><span data-l="en">today</span></span></div>
+            <h4 class="slide-title"><span data-l="es">Arquitecto e IA aplicada</span><span data-l="en">Architect, applied AI</span></h4>
+            <p class="slide-text"><span data-l="es">Orquesta agentes bajo reglas escritas y verifica lo que producen. El esfuerzo se va al criterio y a la medición.</span><span data-l="en">Orchestrates agents under written rules and verifies what they produce. The effort moves to judgement and measurement.</span></p>
+            <div class="slide-hit"><span class="slide-lbl"><span data-l="es">Hito</span><span data-l="en">Milestone</span></span><p><span data-l="es"><b>89</b> modelos entrenados, F1 de <b>0,995</b>, y dos bancos que deciden si algo se publica.</span><span data-l="en"><b>89</b> models trained, F1 of <b>0.995</b>, and two harnesses that decide whether anything ships.</span></p></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="3 / 7">
+            <span class="slide-n" aria-hidden="true">03</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2023 — 2024</span><span class="tag hand" data-l="es">60 % a mano</span><span class="tag hand" data-l="en">60% by hand</span></div>
+            <h4 class="slide-title"><span data-l="es">La plataforma agroindustrial, construida en su mayoría a mano</span><span data-l="en">The agri-industrial platform, mostly built by hand</span></h4>
+            <p class="slide-text"><span data-l="es">Reconstrucción con Clean Architecture y CQRS, cerca del 60 % escrita a mano, y un patrón estrangulador para migrar el sistema heredado sin detener la operación.</span><span data-l="en">A rebuild with Clean Architecture and CQRS, about 60% written by hand, and a strangler pattern to migrate the legacy system without halting operations.</span></p>
+            <div class="metrics"><div class="metric"><b>450</b><span data-l="es">endpoints REST</span><span data-l="en">REST endpoints</span></div><div class="metric"><b>79</b><span data-l="es">tablas en PostgreSQL / PostGIS</span><span data-l="en">PostgreSQL / PostGIS tables</span></div><div class="metric"><b class="hi">0</b><span data-l="es">días de parada del negocio</span><span data-l="en">days of business downtime</span></div></div>
+            <div class="slide-foot"><div class="stack"><span class="chip">.NET 8</span><span class="chip">Clean Architecture</span><span class="chip">CQRS</span><span class="chip">EF Core</span></div><a class="slide-link" href="#w-agro"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="4 / 7">
+            <span class="slide-n" aria-hidden="true">04</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2024 — 2026</span><span class="tag ai" data-l="es">Con agentes</span><span class="tag ai" data-l="en">With agents</span></div>
+            <h4 class="slide-title"><span data-l="es">Detección de palma de aceite sobre ortofotos de dron</span><span data-l="en">Oil palm detection on drone orthophotos</span></h4>
+            <p class="slide-text"><span data-l="es">Una U-Net de mapa de calor entrenada desde cero que localiza cada palma sobre imagen aérea. El gran salto vino de diagnosticar un desalineamiento entre etiquetas e imagen.</span><span data-l="en">A heat-map U-Net trained from scratch that locates every palm on aerial imagery. The big jump came from diagnosing a misalignment between labels and image.</span></p>
+            <div class="metrics"><div class="metric"><b class="hi">0,477 → 0,977</b><span data-l="es">recall, tras corregir las etiquetas</span><span data-l="en">recall, after fixing the labels</span></div><div class="metric"><b>0,995</b><span data-l="es">F1, verificado a mano</span><span data-l="en">F1, hand-verified</span></div><div class="metric"><b>76.120</b><span data-l="es">plantas activas en producción</span><span data-l="en">live plants in production</span></div></div>
+            <div class="slide-foot"><div class="stack"><span class="chip">PyTorch</span><span class="chip">ONNX Runtime</span><span class="chip">U-Net</span><span class="chip">GDAL</span></div><a class="slide-link" href="#w-palma"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="5 / 7">
+            <span class="slide-n" aria-hidden="true">05</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2025 — 2026</span><span class="tag ai" data-l="es">Con agentes</span><span class="tag ai" data-l="en">With agents</span></div>
+            <h4 class="slide-title"><span data-l="es">Rutas de recorrido con Google OR-Tools</span><span data-l="en">Field route optimisation with Google OR-Tools</span></h4>
+            <p class="slide-text"><span data-l="es">El problema del viajante sobre más de 76.000 puntos, con metaheurística seleccionable y las restricciones reales del terreno.</span><span data-l="en">The travelling salesman problem over more than 76,000 points, with a selectable metaheuristic and the real constraints of the terrain.</span></p>
+            <div class="metrics"><div class="metric"><b>76.000<span class="u">+</span></b><span data-l="es">puntos candidatos</span><span data-l="en">candidate points</span></div><div class="metric"><b class="hi">O(n log n)</b><span data-l="es">emparejamiento de retícula, antes cúbico</span><span data-l="en">lattice matching, previously cubic</span></div><div class="metric"><b>3</b><span data-l="es">metaheurísticas: GLS, recocido, tabú</span><span data-l="en">metaheuristics: GLS, annealing, tabu</span></div></div>
+            <div class="slide-foot"><div class="stack"><span class="chip">Google OR-Tools</span><span class="chip">NetTopologySuite</span><span class="chip">C#</span><span class="chip">Voronoi</span></div><a class="slide-link" href="#w-rutas"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="6 / 7">
+            <span class="slide-n" aria-hidden="true">06</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2026</span><span class="tag ai" data-l="es">Con agentes</span><span class="tag ai" data-l="en">With agents</span></div>
+            <h4 class="slide-title"><span data-l="es">Fotogrametría con dron, de la foto a la tesela</span><span data-l="en">Drone photogrammetry, from photo to tile</span></h4>
+            <p class="slide-text"><span data-l="es">Una cadena reanudable de diez pasos: de miles de fotografías aéreas a ortofoto, modelos de superficie y teselas en la nube.</span><span data-l="en">A resumable ten-step pipeline: from thousands of aerial photos to orthophoto, surface models and tiles in the cloud.</span></p>
+            <div class="metrics"><div class="metric"><b>26</b><span data-l="es">vuelos procesados</span><span data-l="en">flights processed</span></div><div class="metric"><b>5.351</b><span data-l="es">fotografías</span><span data-l="en">photographs</span></div><div class="metric"><b class="hi">13 h → 14 min</b><span data-l="es">densificación, al activar la GPU</span><span data-l="en">densification, after enabling the GPU</span></div></div>
+            <div class="slide-foot"><div class="stack"><span class="chip">OpenDroneMap</span><span class="chip">GDAL</span><span class="chip">COG</span><span class="chip">PMTiles</span></div><a class="slide-link" href="#w-foto"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="7 / 7">
+            <span class="slide-n" aria-hidden="true">07</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2026</span><span class="tag ai" data-l="es">Con agentes</span><span class="tag ai" data-l="en">With agents</span></div>
+            <h4 class="slide-title"><span data-l="es">Bancos de pruebas para dos agentes en producción</span><span data-l="en">Evaluation harnesses for two production agents</span></h4>
+            <p class="slide-text"><span data-l="es">Ciento dieciocho casos con verdad de referencia medida contra producción, para decidir con datos si un asistente puede publicarse.</span><span data-l="en">One hundred and eighteen cases with ground truth measured against production, to decide with data whether an assistant can ship.</span></p>
+            <div class="metrics"><div class="metric"><b>118</b><span data-l="es">casos versionados</span><span data-l="en">versioned cases</span></div><div class="metric"><b class="hi">9 / 9</b><span data-l="es">inyección de prompt, incluida la indirecta</span><span data-l="en">prompt injection, indirect included</span></div><div class="metric"><b>0</b><span data-l="es">fugas entre clientes</span><span data-l="en">cross-tenant leaks</span></div></div>
+            <div class="slide-foot"><div class="stack"><span class="chip">Python</span><span class="chip">text-to-SQL</span><span class="chip">RAG</span><span class="chip">ChromaDB</span></div><a class="slide-link" href="#w-bancos"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
+          </article>
+      </div>
+      <div class="tl-pips"><button class="tl-pip" type="button" data-go="0"><span class="sr-only"><span data-l="es">Ir a la diapositiva 1</span><span data-l="en">Go to slide 1</span></span></button><button class="tl-pip" type="button" data-go="1"><span class="sr-only"><span data-l="es">Ir a la diapositiva 2</span><span data-l="en">Go to slide 2</span></span></button><button class="tl-pip" type="button" data-go="2"><span class="sr-only"><span data-l="es">Ir a la diapositiva 3</span><span data-l="en">Go to slide 3</span></span></button><button class="tl-pip" type="button" data-go="3"><span class="sr-only"><span data-l="es">Ir a la diapositiva 4</span><span data-l="en">Go to slide 4</span></span></button><button class="tl-pip" type="button" data-go="4"><span class="sr-only"><span data-l="es">Ir a la diapositiva 5</span><span data-l="en">Go to slide 5</span></span></button><button class="tl-pip" type="button" data-go="5"><span class="sr-only"><span data-l="es">Ir a la diapositiva 6</span><span data-l="en">Go to slide 6</span></span></button><button class="tl-pip" type="button" data-go="6"><span class="sr-only"><span data-l="es">Ir a la diapositiva 7</span><span data-l="en">Go to slide 7</span></span></button></div>
+    </div>
       </div>
     </div>
   </div>
@@ -742,7 +929,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
 
     <div class="work">
 
-      <article class="entry">
+      <article class="entry" id="w-red">
         <div class="entry-meta">
           <span class="yr">2016 — 2020</span>
           <span class="tag hand" data-l="es">A mano</span>
@@ -771,7 +958,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         </div>
       </article>
 
-      <article class="entry">
+      <article class="entry" id="w-siswallet">
         <div class="entry-meta">
           <span class="yr">2020 — 2022</span>
           <span class="tag hand" data-l="es">A mano</span>
@@ -796,7 +983,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         </div>
       </article>
 
-      <article class="entry">
+      <article class="entry" id="w-pos">
         <div class="entry-meta">
           <span class="yr" data-l="es">2021 — hoy</span>
           <span class="yr" data-l="en">2021 — today</span>
@@ -826,7 +1013,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         </div>
       </article>
 
-      <article class="entry">
+      <article class="entry" id="w-nomina">
         <div class="entry-meta">
           <span class="yr">2021 — 2022</span>
           <span class="tag hand" data-l="es">A mano</span>
@@ -845,7 +1032,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         </div>
       </article>
 
-      <article class="entry">
+      <article class="entry" id="w-cripto">
         <div class="entry-meta">
           <span class="yr">2022 — 2023</span>
           <span class="tag hand" data-l="es">A mano</span>
@@ -869,7 +1056,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         </div>
       </article>
 
-      <article class="entry">
+      <article class="entry" id="w-agro">
         <div class="entry-meta">
           <span class="yr">2023 — 2024</span>
           <span class="tag hand" data-l="es">60 % a mano</span>
@@ -899,7 +1086,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         </div>
       </article>
 
-      <article class="entry">
+      <article class="entry" id="w-plantillas">
         <div class="entry-meta">
           <span class="yr">2024 — 2025</span>
           <span class="tag hand" data-l="es">A mano</span>
@@ -928,7 +1115,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         </div>
       </article>
 
-      <article class="entry">
+      <article class="entry" id="w-palma">
         <div class="entry-meta">
           <span class="yr">2024 — 2026</span>
           <span class="tag ai" data-l="es">Con agentes</span>
@@ -957,7 +1144,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         </div>
       </article>
 
-      <article class="entry">
+      <article class="entry" id="w-rutas">
         <div class="entry-meta">
           <span class="yr">2025 — 2026</span>
           <span class="tag ai" data-l="es">Con agentes</span>
@@ -986,7 +1173,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         </div>
       </article>
 
-      <article class="entry">
+      <article class="entry" id="w-foto">
         <div class="entry-meta">
           <span class="yr">2026</span>
           <span class="tag ai" data-l="es">Con agentes</span>
@@ -1015,7 +1202,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         </div>
       </article>
 
-      <article class="entry">
+      <article class="entry" id="w-bancos">
         <div class="entry-meta">
           <span class="yr">2026</span>
           <span class="tag ai" data-l="es">Con agentes</span>
@@ -1044,7 +1231,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         </div>
       </article>
 
-      <article class="entry">
+      <article class="entry" id="w-nexodeck">
         <div class="entry-meta">
           <span class="yr">2026</span>
           <span class="tag ai" data-l="es">Con agentes</span>
@@ -1492,5 +1679,117 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
   reduce.addEventListener('change', () => { stop(); build(); start(); });
 
   build(); readColors(); start();
+})();
+</script>
+<script>
+/* ── Recorrido: mini línea de tiempo + carrusel ─────────────── */
+(() => {
+  "use strict";
+  const tl = document.getElementById('tl');
+  if (!tl) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const tabsBox = tl.querySelector('.tl-tabs');
+  const scroller = tl.querySelector('.tl-scroll');
+  const fill = tl.querySelector('.tl-fill');
+  const tabs = [...tl.querySelectorAll('[role="tab"]')];
+  const panels = [...tl.querySelectorAll('[role="tabpanel"]')];
+  const pad = n => String(n).padStart(2, '0');
+  let current = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
+
+  function placeFill() {
+    const dot = tabs[current].querySelector('.tl-dot').getBoundingClientRect();
+    const rail = tl.querySelector('.tl-rail').getBoundingClientRect();
+    fill.style.width = Math.max(0, dot.left + dot.width / 2 - rail.left) + 'px';
+  }
+
+  /* Carrusel de cada panel */
+  function carousel(panel) {
+    const track = panel.querySelector('.tl-track');
+    const slides = [...track.children];
+    const count = panel.querySelector('.tl-count b');
+    const [prev, next] = panel.querySelectorAll('.tl-btn');
+    const pips = [...panel.querySelectorAll('.tl-pip')];
+    slides.forEach((s, k) => s.style.setProperty('--i', k));
+    let idx = 0, ticking = false;
+
+    const max = () => track.scrollWidth - track.clientWidth;
+    const origin = () => slides[0].offsetLeft;
+
+    function sync() {
+      ticking = false;
+      const x = track.scrollLeft, m = max();
+      if (m > 2 && x >= m - 2) idx = slides.length - 1;
+      else {
+        let best = Infinity;
+        slides.forEach((s, k) => { const d = Math.abs(s.offsetLeft - origin() - x); if (d < best) { best = d; idx = k; } });
+      }
+      slides.forEach((s, k) => s.classList.toggle('is-active', k === idx));
+      count.textContent = pad(idx + 1);
+      prev.disabled = x <= 2;
+      next.disabled = x >= m - 2;
+      pips.forEach((p, k) => p.setAttribute('aria-current', k === idx ? 'true' : 'false'));
+      track.classList.toggle('fade-l', x > 2);
+      track.classList.toggle('fade-r', x < m - 2);
+    }
+    function go(k) {
+      k = Math.max(0, Math.min(slides.length - 1, k));
+      track.scrollTo({ left: slides[k].offsetLeft - origin(), behavior: reduce.matches ? 'auto' : 'smooth' });
+    }
+    function reset() { track.style.scrollBehavior = 'auto'; track.scrollLeft = 0; track.style.scrollBehavior = ''; sync(); }
+
+    track.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(sync); } }, { passive: true });
+    prev.addEventListener('click', () => go(idx - 1));
+    next.addEventListener('click', () => go(idx + 1));
+    pips.forEach((p, k) => p.addEventListener('click', () => go(k)));
+    track.addEventListener('keydown', e => {
+      if (e.target !== track) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(idx + 1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); go(idx - 1); }
+    });
+    slides.forEach((s, k) => s.addEventListener('click', e => { if (k !== idx && !e.target.closest('a')) go(k); }));
+    return { sync, reset };
+  }
+  const cars = panels.map(carousel);
+
+  function select(i, { focus = false, animate = true } = {}) {
+    if (i === current && animate) return;
+    current = i;
+    tabs.forEach((t, k) => {
+      const on = k === i;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      t.classList.toggle('is-past', k < i);
+    });
+    panels.forEach((p, k) => {
+      const on = k === i;
+      p.hidden = !on;
+      p.classList.remove('enter');
+      if (on) {
+        cars[k].reset();
+        if (animate && !reduce.matches) { void p.offsetWidth; p.classList.add('enter'); }
+      }
+    });
+    placeFill();
+    if (focus) tabs[i].focus({ preventScroll: true });
+    if (scroller.scrollWidth > scroller.clientWidth) {
+      const t = tabs[i];
+      scroller.scrollTo({ left: t.offsetLeft - (scroller.clientWidth - t.offsetWidth) / 2, behavior: reduce.matches ? 'auto' : 'smooth' });
+    }
+  }
+
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(i));
+    t.addEventListener('keydown', e => {
+      const last = tabs.length - 1;
+      const n = { ArrowRight: i === last ? 0 : i + 1, ArrowLeft: i === 0 ? last : i - 1, Home: 0, End: last }[e.key];
+      if (n !== undefined) { e.preventDefault(); select(n, { focus: true }); }
+    });
+  });
+
+  select(current, { animate: false });
+  const ro = new ResizeObserver(() => { placeFill(); cars[current].sync(); });
+  ro.observe(tabsBox);
+  panels.forEach(p => ro.observe(p));
+  if (document.fonts) document.fonts.ready.then(() => { placeFill(); cars[current].sync(); });
 })();
 </script>
