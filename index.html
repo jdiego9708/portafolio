@@ -389,6 +389,11 @@ blockquote {
 .skill ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
 .skill li { font-size: .86rem; color: var(--ink-soft); line-height: 1.5; padding-left: 14px; position: relative; }
 .skill li::before { content: ""; position: absolute; left: 0; top: .62em; width: 5px; height: 1px; background: var(--accent); }
+/* Tarjeta ancha: ocupa toda la fila y reparte su lista en etapas */
+.skill.wide { grid-column: 1 / -1; }
+.skill-eras { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px 48px; }
+@media (max-width: 560px) { .skill-eras { grid-template-columns: 1fr; } }
+.skill-era { font-family: var(--mono); font-size: .66rem; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-mid); margin: 0 0 8px; }
 
 /* ── Contacto ────────────────────────────────────────────────── */
 .contact { background: var(--ground-deep); }
@@ -1230,6 +1235,29 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
           <li><span data-l="es">Documentación de decisiones y ADR</span><span data-l="en">Decision records and ADRs</span></li>
           <li><span data-l="es">Orquestación de agentes de código con reglas propias</span><span data-l="en">Orchestrating coding agents under written rules</span></li>
         </ul>
+      </div>
+      <div class="skill wide">
+        <h3><span data-l="es">DevOps y despliegue</span><span data-l="en">DevOps and deployment</span></h3>
+        <div class="skill-eras">
+          <div>
+            <p class="skill-era"><span data-l="es">Antes de ClickPalm</span><span data-l="en">Before ClickPalm</span></p>
+            <ul>
+              <li><span data-l="es">Publicación de aplicaciones de escritorio WinForms y WPF</span><span data-l="en">Shipping WinForms and WPF desktop applications</span></li>
+              <li><span data-l="es">Ejecutables generados con las herramientas nativas de .NET</span><span data-l="en">Executables built with native .NET tooling</span></li>
+              <li><span data-l="es">Sitios estáticos en GitHub Pages y en Azure</span><span data-l="en">Static sites on GitHub Pages and Azure</span></li>
+              <li><span data-l="es">Despliegue de APIs y bases de datos</span><span data-l="en">Deploying APIs and databases</span></li>
+            </ul>
+          </div>
+          <div>
+            <p class="skill-era"><span data-l="es">En ClickPalm</span><span data-l="en">At ClickPalm</span></p>
+            <ul>
+              <li><span data-l="es">Servicios en AWS</span><span data-l="en">Services on AWS</span></li>
+              <li><span data-l="es">Dokploy para centralizar los despliegues</span><span data-l="en">Dokploy to centralise deployments</span></li>
+              <li><span data-l="es">Servidores VPS en Contabo</span><span data-l="en">VPS servers on Contabo</span></li>
+              <li>Cloudflare</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
