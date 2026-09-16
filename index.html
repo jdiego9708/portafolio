@@ -1,0 +1,1468 @@
+<title>Juan Diego Duque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,400;0,500;1,6..72,300&family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* ───────────────────────────────────────────────────────────────
+   Tokens. El bloque :root define la paleta clara COMPLETA.
+   Los dos bloques siguientes solo redefinen tokens, nunca reglas.
+   ─────────────────────────────────────────────────────────────── */
+:root {
+  --ground:      #F6F7F5;
+  --ground-deep: #EDEFEC;
+  --surface:     #FFFFFF;
+  --ink:         #101917;
+  --ink-mid:     #3E4C49;
+  --ink-soft:    #6B7975;
+  --line:        #DDE2DE;
+  --line-soft:   #E9EDE9;
+  --accent:      #0C6D64;
+  --accent-ink:  #08514A;
+  --warm:        #A2621F;
+  --field-rgb:   16, 60, 56;
+  --field-alpha: 0.30;
+  --glow-rgb:    12, 109, 100;
+  --shadow:      0 1px 2px rgba(16,25,23,.05), 0 12px 32px -18px rgba(16,25,23,.22);
+
+  --sans: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Newsreader", ui-serif, Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+
+  --measure: 64ch;
+  --shell: 1120px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:      #080D0D;
+    --ground-deep: #050909;
+    --surface:     #0E1616;
+    --ink:         #E7EDEA;
+    --ink-mid:     #A9B7B3;
+    --ink-soft:    #758682;
+    --line:        #1C2A28;
+    --line-soft:   #152120;
+    --accent:      #3FBCAE;
+    --accent-ink:  #6FD6C9;
+    --warm:        #D9973F;
+    --field-rgb:   130, 214, 202;
+    --field-alpha: 0.22;
+    --glow-rgb:    108, 226, 209;
+    --shadow:      0 1px 2px rgba(0,0,0,.4), 0 16px 40px -20px rgba(0,0,0,.7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground:      #080D0D;
+  --ground-deep: #050909;
+  --surface:     #0E1616;
+  --ink:         #E7EDEA;
+  --ink-mid:     #A9B7B3;
+  --ink-soft:    #758682;
+  --line:        #1C2A28;
+  --line-soft:   #152120;
+  --accent:      #3FBCAE;
+  --accent-ink:  #6FD6C9;
+  --warm:        #D9973F;
+  --field-rgb:   130, 214, 202;
+  --field-alpha: 0.22;
+  --glow-rgb:    108, 226, 209;
+  --shadow:      0 1px 2px rgba(0,0,0,.4), 0 16px 40px -20px rgba(0,0,0,.7);
+  color-scheme: dark;
+}
+
+/* ── Base ────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 16.5px;
+  line-height: 1.65;
+  letter-spacing: .003em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* El lienzo de la retícula, fijo detrás de todo */
+#field {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+  display: block;
+}
+#veil {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(120% 78% at 50% 0%, transparent 0%, var(--ground) 76%),
+    linear-gradient(to bottom, transparent 0%, transparent 55%, var(--ground) 100%);
+}
+.page { position: relative; z-index: 2; }
+
+/* ── Idioma ──────────────────────────────────────────────────── */
+html[lang="es"] [data-l="en"], html[lang="en"] [data-l="es"] { display: none !important; }
+
+/* ── Tipografía ──────────────────────────────────────────────── */
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; text-wrap: balance; margin: 0; letter-spacing: -.012em; }
+h1 { font-size: clamp(2.6rem, 6.2vw, 4.3rem); line-height: 1.04; letter-spacing: -.026em; }
+h2 { font-size: clamp(1.75rem, 3.4vw, 2.5rem); line-height: 1.14; }
+h3 { font-size: clamp(1.25rem, 2vw, 1.55rem); line-height: 1.22; }
+p { margin: 0; max-width: var(--measure); }
+a { color: inherit; }
+
+.eyebrow {
+  font-family: var(--mono); font-size: .69rem; font-weight: 500;
+  letter-spacing: .17em; text-transform: uppercase; color: var(--ink-soft);
+}
+.lede { font-size: clamp(1.06rem, 1.7vw, 1.22rem); color: var(--ink-mid); line-height: 1.62; }
+.small { font-size: .9rem; color: var(--ink-soft); line-height: 1.6; }
+em.q { font-family: var(--serif); font-style: italic; color: var(--ink-mid); }
+strong { font-weight: 600; color: var(--ink); }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* ── Estructura ──────────────────────────────────────────────── */
+.shell { width: 100%; max-width: var(--shell); margin-inline: auto; padding-inline: 24px; }
+@media (max-width: 560px) { .shell { padding-inline: 18px; } }
+
+section { padding-block: clamp(64px, 8vw, 108px); }
+section + section { border-top: 1px solid var(--line-soft); }
+
+.sec-head { display: flex; flex-direction: column; gap: 14px; margin-bottom: clamp(34px, 4.5vw, 54px); }
+.sec-head p { max-width: 58ch; }
+
+/* ── Barra superior ──────────────────────────────────────────── */
+header.bar {
+  position: sticky; top: 0; z-index: 20;
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  background: color-mix(in srgb, var(--ground) 80%, transparent);
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s var(--ease);
+}
+header.bar.stuck { border-bottom-color: var(--line); }
+.bar-in { display: flex; align-items: center; gap: 16px; height: 60px; }
+.mark {
+  font-family: var(--mono); font-size: .78rem; font-weight: 500; letter-spacing: .12em;
+  text-transform: uppercase; text-decoration: none; color: var(--ink); white-space: nowrap;
+}
+.mark span { color: var(--accent); }
+nav.links { display: flex; gap: 22px; margin-left: auto; }
+nav.links a {
+  font-size: .85rem; color: var(--ink-soft); text-decoration: none;
+  transition: color .2s var(--ease); white-space: nowrap;
+}
+nav.links a:hover { color: var(--ink); }
+@media (max-width: 860px) { nav.links { display: none; } }
+
+.switches { display: flex; gap: 8px; margin-left: auto; }
+@media (min-width: 861px) { .switches { margin-left: 22px; } }
+.sw {
+  font-family: var(--mono); font-size: .7rem; font-weight: 500; letter-spacing: .06em;
+  height: 32px; min-width: 32px; padding-inline: 9px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+  background: transparent; color: var(--ink-mid);
+  border: 1px solid var(--line); border-radius: 3px;
+  cursor: pointer; transition: border-color .2s var(--ease), color .2s var(--ease), background .2s var(--ease);
+}
+.sw:hover { color: var(--ink); border-color: var(--ink-soft); }
+.sw svg { width: 14px; height: 14px; display: block; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+/* ── Portada ─────────────────────────────────────────────────── */
+.hero { padding-block: clamp(56px, 9vw, 112px) clamp(52px, 6vw, 80px); }
+.hero-grid { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: clamp(28px, 5vw, 64px); align-items: start; }
+@media (max-width: 800px) { .hero-grid { grid-template-columns: 1fr; } }
+
+.who {
+  margin-top: 22px;
+  font-family: var(--mono); font-size: .82rem; font-weight: 500;
+  letter-spacing: .19em; text-transform: uppercase; color: var(--ink);
+}
+.hero h1 { margin-block: 12px 0; }
+.hero h1 .soft { color: var(--ink-soft); }
+.hero h1 .it { font-style: italic; color: var(--accent); }
+.hero-lede { margin-top: 24px; max-width: 56ch; }
+
+/* El aro va como outline de la propia imagen: su recuadro siempre es
+   cuadrado, asi que el circulo no puede deformarse aunque la columna crezca. */
+.portrait {
+  position: relative; align-self: start; justify-self: end;
+  width: clamp(150px, 19vw, 214px); aspect-ratio: 1; line-height: 0;
+}
+.portrait img {
+  width: 100%; height: 100%; max-width: 100%; display: block;
+  border-radius: 50%; object-fit: cover;
+  border: 1px solid var(--line); box-shadow: var(--shadow);
+  outline: 1px solid var(--line); outline-offset: 9px;
+}
+@media (max-width: 800px) { .portrait { width: 132px; order: -1; justify-self: start; } }
+
+.avail { display: inline-flex; align-items: center; gap: 8px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); position: relative; flex: none; }
+.dot::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 50%;
+  border: 1px solid var(--accent); opacity: .45;
+  animation: ping 2.8s var(--ease) infinite;
+}
+@keyframes ping { 0% { transform: scale(.6); opacity: .6 } 70%,100% { transform: scale(1.5); opacity: 0 } }
+
+.facts {
+  margin-top: clamp(40px, 5vw, 60px);
+  display: grid; grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 1px; background: var(--line-soft);
+  border-block: 1px solid var(--line-soft);
+}
+@media (max-width: 760px) { .facts { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+.fact { background: var(--ground); padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 5px; }
+.fact b { font-family: var(--mono); font-weight: 500; font-size: clamp(1.28rem, 2.5vw, 1.7rem); color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.fact b .u { font-size: .62em; color: var(--ink-soft); margin-left: 2px; }
+.fact span { font-size: .82rem; color: var(--ink-soft); line-height: 1.45; }
+.facts-note { margin-top: 15px; }
+
+/* ── Pilares ─────────────────────────────────────────────────── */
+.pillars { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: clamp(28px, 4vw, 52px); }
+@media (max-width: 760px) { .pillars { grid-template-columns: 1fr; } }
+.pillar { display: flex; flex-direction: column; gap: 11px; }
+.pillar .k { font-family: var(--mono); font-size: .69rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+.pillar h3 { font-size: 1.28rem; }
+.pillar p { font-size: .97rem; color: var(--ink-mid); }
+
+/* ── Trabajo ─────────────────────────────────────────────────── */
+.work { display: flex; flex-direction: column; }
+.entry {
+  display: grid; grid-template-columns: 150px minmax(0,1fr); gap: clamp(20px, 4vw, 48px);
+  padding-block: clamp(32px, 4vw, 44px);
+  border-top: 1px solid var(--line-soft);
+  position: relative;
+}
+.entry:first-child { border-top: 1px solid var(--line); }
+.entry::before {
+  content: ""; position: absolute; left: 0; top: -1px; height: 1px; width: 0;
+  background: var(--accent); transition: width .55s var(--ease);
+}
+.entry:hover::before { width: 100%; }
+@media (max-width: 780px) { .entry { grid-template-columns: 1fr; gap: 16px; } }
+
+.entry-meta { display: flex; flex-direction: column; gap: 7px; padding-top: 5px; }
+@media (max-width: 780px) { .entry-meta { flex-direction: row; flex-wrap: wrap; gap: 10px; align-items: center; } }
+.entry-meta .yr { font-family: var(--mono); font-size: .78rem; color: var(--ink-mid); font-variant-numeric: tabular-nums; }
+.tag {
+  font-family: var(--mono); font-size: .63rem; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--ink-soft); border: 1px solid var(--line); border-radius: 2px;
+  padding: 2px 7px; align-self: flex-start; white-space: nowrap;
+}
+.tag.own { color: var(--warm); border-color: color-mix(in srgb, var(--warm) 42%, transparent); }
+/* Marca de como se construyo cada pieza: es la tesis de la pagina, hecha visible */
+.tag.hand { color: var(--ink-mid); border-color: var(--line); }
+.tag.ai { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 42%, transparent); }
+
+.entry-body { display: flex; flex-direction: column; gap: 16px; }
+.entry-body h3 + p { margin-top: -3px; }
+.entry-body p { font-size: .99rem; color: var(--ink-mid); }
+
+.metrics { display: flex; flex-wrap: wrap; gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+.metric { background: var(--surface); padding: 12px 16px 13px; flex: 1 1 148px; display: flex; flex-direction: column; gap: 2px; }
+.metric b { font-family: var(--mono); font-weight: 500; font-size: 1.02rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+.metric b.hi { color: var(--warm); }
+.metric span { font-size: .76rem; color: var(--ink-soft); line-height: 1.4; }
+
+.stack { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font-family: var(--mono); font-size: .71rem; color: var(--ink-soft);
+  border: 1px solid var(--line); border-radius: 2px; padding: 3px 8px;
+  transition: border-color .2s var(--ease), color .2s var(--ease);
+}
+.entry:hover .chip { border-color: var(--line); color: var(--ink-mid); }
+
+/* ── Método (destacado) ──────────────────────────────────────── */
+.method { background: var(--ground-deep); }
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); margin-top: 34px; }
+@media (max-width: 860px) { .steps { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
+.step { background: var(--surface); padding: 20px 18px 22px; display: flex; flex-direction: column; gap: 8px; }
+.step .n { font-family: var(--mono); font-size: .72rem; color: var(--accent); letter-spacing: .1em; }
+.step h3 { font-size: 1.06rem; }
+.step p { font-size: .88rem; color: var(--ink-soft); }
+
+.result { margin-top: 34px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 420px; font-size: .9rem; }
+caption { text-align: left; font-size: .82rem; color: var(--ink-soft); padding-bottom: 10px; }
+th, td { text-align: left; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--line-soft); }
+th { font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); font-weight: 500; }
+td { color: var(--ink-mid); }
+td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--ink); }
+tr.win td { color: var(--ink); }
+tr.win td.n.k { color: var(--warm); font-weight: 500; }
+
+blockquote {
+  margin: 34px 0 0; padding-left: 22px; border-left: 2px solid var(--accent);
+  font-family: var(--serif); font-style: italic; font-size: 1.1rem; line-height: 1.55;
+  color: var(--ink-mid); max-width: 58ch;
+}
+
+/* ── Recorrido: el carril de fases ───────────────────────────────
+   Seis fases en tres filas alineadas. El carril codifica la evolucion:
+   el color viaja del gris al acento, el punto crece, y en las dos
+   ultimas fases la linea se abre en hebras — deja de ser una linea
+   y pasa a ser un sistema.
+   ─────────────────────────────────────────────────────────────── */
+.tlx-scroll { overflow-x: auto; overscroll-behavior-x: contain; padding-bottom: 4px; }
+.tlx {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(160px, 1fr));
+  grid-template-rows: auto auto auto;
+  gap: 0 16px;
+}
+.tlx > .ph-head { grid-row: 1; align-self: end; display: flex; flex-direction: column; gap: 3px; padding-bottom: 15px; }
+.tlx > .ph-rail { grid-row: 2; position: relative; height: 18px; }
+.tlx > .ph-body { grid-row: 3; display: flex; flex-direction: column; padding-top: 16px; }
+
+.tlx .yr { font-family: var(--mono); font-size: .71rem; letter-spacing: .05em; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.tlx .co { font-weight: 600; font-size: .92rem; line-height: 1.28; color: var(--ink); }
+.tlx .role { font-size: .78rem; color: var(--ink-soft); line-height: 1.35; }
+
+.ph-rail::before {
+  content: ""; position: absolute; left: 0; right: -16px; top: 8px; height: 1px;
+  background: var(--seg);
+}
+.ph-rail.end::before { right: 0; }
+.ph-rail .dot {
+  position: absolute; left: 0; top: 8px; transform: translate(-50%, -50%);
+  width: var(--d); height: var(--d); border-radius: 50%;
+  background: var(--ground); border: 1px solid var(--seg); box-sizing: border-box;
+}
+.ph-rail.on .dot { background: var(--accent); border-color: var(--accent); }
+.ph-rail.on .dot::after {
+  content: ""; position: absolute; inset: -5px; border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+}
+.ph-rail.fan::after {
+  content: ""; position: absolute; left: 6px; right: -16px; top: 1px; height: 15px;
+  border-top: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+  border-radius: 60% / 100%;
+}
+.ph-rail.p1 { --seg: var(--line); --d: 7px; }
+.ph-rail.p2 { --seg: color-mix(in srgb, var(--accent) 18%, var(--line)); --d: 7px; }
+.ph-rail.p3 { --seg: color-mix(in srgb, var(--accent) 34%, var(--line)); --d: 8px; }
+.ph-rail.p4 { --seg: color-mix(in srgb, var(--accent) 52%, var(--line)); --d: 9px; }
+.ph-rail.p5 { --seg: color-mix(in srgb, var(--accent) 74%, var(--line)); --d: 10px; }
+.ph-rail.p6 { --seg: var(--accent); --d: 11px; }
+
+.tlx .lbl { font-family: var(--mono); font-size: .59rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+.tlx .lbl + p { margin-top: 4px; margin-bottom: 12px; }
+.tlx p { font-size: .8rem; line-height: 1.5; color: var(--ink-mid); max-width: none; }
+.tlx p.hit { color: var(--ink); margin-bottom: 0; }
+.tlx p.hit b { font-family: var(--mono); font-weight: 500; color: var(--warm); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 720px) {
+  .tlx-scroll { overflow-x: visible; }
+  .tlx { grid-template-columns: 1fr; gap: 0; }
+  .tlx > * { grid-row: auto; }
+  .tlx > .ph-head {
+    align-self: start; position: relative;
+    padding: 24px 0 10px 24px; border-left: 1px solid var(--line);
+  }
+  .tlx > .ph-head::before {
+    content: ""; position: absolute; left: -4px; top: 30px;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--ground); border: 1px solid var(--accent); box-sizing: border-box;
+  }
+  .tlx > .ph-body { padding: 0 0 6px 24px; border-left: 1px solid var(--line); }
+  .tlx > .ph-rail { height: 0; }
+  .ph-rail::before, .ph-rail::after, .ph-rail .dot { display: none; }
+}
+
+/* ── Competencias ────────────────────────────────────────────── */
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+@media (max-width: 900px) { .skills { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 560px) { .skills { grid-template-columns: 1fr; } }
+.skill { background: var(--ground); padding: 22px 20px 24px; display: flex; flex-direction: column; gap: 10px; }
+.skill h3 { font-size: 1.02rem; font-family: var(--sans); font-weight: 600; letter-spacing: 0; }
+.skill ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.skill li { font-size: .86rem; color: var(--ink-soft); line-height: 1.5; padding-left: 14px; position: relative; }
+.skill li::before { content: ""; position: absolute; left: 0; top: .62em; width: 5px; height: 1px; background: var(--accent); }
+
+/* ── Contacto ────────────────────────────────────────────────── */
+.contact { background: var(--ground-deep); }
+.contact-grid { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: clamp(28px, 5vw, 60px); align-items: end; }
+@media (max-width: 760px) { .contact-grid { grid-template-columns: 1fr; align-items: start; } }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--sans); font-size: .93rem; font-weight: 500;
+  padding: 11px 19px; border-radius: 3px; text-decoration: none;
+  border: 1px solid var(--line); color: var(--ink); background: var(--surface);
+  transition: border-color .2s var(--ease), transform .2s var(--ease), box-shadow .25s var(--ease), background .2s var(--ease);
+}
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); border-color: var(--ink-soft); }
+.btn.pri { background: var(--accent); border-color: var(--accent); color: #fff; }
+:root[data-theme="dark"] .btn.pri { color: #04100F; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.pri { color: #04100F; } }
+.btn.pri:hover { background: var(--accent-ink); border-color: var(--accent-ink); }
+.btn svg { width: 15px; height: 15px; flex: none; }
+
+footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
+.foot { display: flex; flex-wrap: wrap; gap: 14px 26px; align-items: baseline; }
+.foot .small { margin-right: auto; }
+
+/* ── Entrada orquestada de la portada ────────────────────────── */
+.rise { animation: rise .9s var(--ease) both; }
+.rise.d1 { animation-delay: .06s } .rise.d2 { animation-delay: .14s }
+.rise.d3 { animation-delay: .22s } .rise.d4 { animation-delay: .3s } .rise.d5 { animation-delay: .4s }
+@keyframes rise { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: none } }
+@media (prefers-reduced-motion: reduce) {
+  .rise { animation: none; }
+  .dot::after { animation: none; }
+  * { transition-duration: .01ms !important; }
+}
+</style>
+
+<canvas id="field" aria-hidden="true"></canvas>
+<div id="veil" aria-hidden="true"></div>
+
+<div class="page">
+
+<header class="bar" id="bar">
+  <div class="shell bar-in">
+    <a class="mark" href="#top">JDD<span>.</span></a>
+    <nav class="links">
+      <a href="#recorrido"><span data-l="es">Recorrido</span><span data-l="en">Track record</span></a>
+      <a href="#trabajo"><span data-l="es">Trabajo</span><span data-l="en">Work</span></a>
+      <a href="#metodo"><span data-l="es">Método</span><span data-l="en">Method</span></a>
+      <a href="#competencias"><span data-l="es">Competencias</span><span data-l="en">Skills</span></a>
+      <a href="#contacto"><span data-l="es">Contacto</span><span data-l="en">Contact</span></a>
+    </nav>
+    <div class="switches">
+      <button class="sw" id="lang" type="button" aria-label="Español / English"><span id="langLabel">EN</span></button>
+      <button class="sw" id="theme" type="button" aria-label="Tema claro / oscuro">
+        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.2M12 19.4v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.4 12h2.2M19.4 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ── Portada ─────────────────────────────────────────────── -->
+<section class="hero" id="top">
+  <div class="shell">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow avail rise d1">
+          <span class="dot" aria-hidden="true"></span>
+          <span data-l="es">Manizales, Colombia · Remoto · Disponible para proyectos</span>
+          <span data-l="en">Manizales, Colombia · Remote · Available for projects</span>
+        </div>
+
+        <p class="who rise d2">Juan Diego Duque</p>
+
+        <h1 class="rise d3">
+          <span data-l="es">Arquitecto de soluciones de software <span class="it">e IA aplicada</span></span>
+          <span data-l="en">Solutions architect in software <span class="it">and applied AI</span></span>
+        </h1>
+
+        <p class="lede hero-lede rise d4">
+          <span data-l="es">Diez años escribiendo a mano lo que hoy escribe un agente. Ahora diseño el sistema, fijo las reglas y <strong>mido el resultado</strong>: 89 modelos de visión entrenados, dos bancos de pruebas que deciden si un agente puede publicarse, y una plataforma de 450 endpoints reconstruida sin que el negocio parara un solo día.</span>
+          <span data-l="en">Ten years hand-writing what an agent writes today. Now I design the system, set the rules and <strong>measure the outcome</strong>: 89 vision models trained, two evaluation harnesses that decide whether an agent ships, and a 450-endpoint platform rebuilt without the business stopping for a single day.</span>
+        </p>
+      </div>
+
+      <div class="portrait rise d2">
+        <img src="retrato.jpg" width="560" height="560" alt="Juan Diego Duque" decoding="async">
+      </div>
+    </div>
+
+    <div class="facts rise d5">
+      <div class="fact">
+        <b>10<span class="u">+</span></b>
+        <span data-l="es">años construyendo software, casi todos con .NET de base</span>
+        <span data-l="en">years building software, most of them with .NET at the core</span>
+      </div>
+      <div class="fact">
+        <b>40<span class="u">+</span></b>
+        <span data-l="es">aplicaciones entregadas de punta a punta desde 2017</span>
+        <span data-l="en">applications delivered end to end since 2017</span>
+      </div>
+      <div class="fact">
+        <b>9</b>
+        <span data-l="es">sectores distintos, de restaurantes a agricultura de precisión</span>
+        <span data-l="en">different industries, from restaurants to precision agriculture</span>
+      </div>
+      <div class="fact">
+        <b>7</b>
+        <span data-l="es">lenguajes en producción, de C# a Rust</span>
+        <span data-l="en">languages in production, from C# to Rust</span>
+      </div>
+    </div>
+
+    <p class="small facts-note rise d5">
+      <span data-l="es">Cada cifra de esta página sale de un proyecto concreto, y puedo enseñar de dónde en pantalla compartida, en cinco minutos.</span>
+      <span data-l="en">Every figure on this page comes from a specific project, and I can show where it comes from on a shared screen, in five minutes.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ── Recorrido ───────────────────────────────────────────── -->
+<section id="recorrido">
+  <div class="shell">
+    <div class="sec-head">
+      <span class="eyebrow" data-l="es">Recorrido</span>
+      <span class="eyebrow" data-l="en">Track record</span>
+      <h2>
+        <span data-l="es">De escribir cada línea a diseñar y medir el sistema</span>
+        <span data-l="en">From writing every line to designing and measuring the system</span>
+      </h2>
+      <p>
+        <span data-l="es">Seis fases y seis formas distintas de trabajar. Lo que cambió no fue el calendario, sino dónde está el esfuerzo: antes en la sintaxis, hoy en el criterio y en la medición.</span>
+        <span data-l="en">Six phases and six different ways of working. What changed isn't the calendar but where the effort sits: it used to be syntax, today it's judgement and measurement.</span>
+      </p>
+    </div>
+
+    <div class="tlx-scroll">
+      <div class="tlx">
+
+        <div class="ph-head">
+          <span class="yr">2016 — 2020</span>
+          <span class="co">Universidad Católica de Manizales</span>
+          <span class="role" data-l="es">Administrador de sistemas</span>
+          <span class="role" data-l="en">Systems administrator</span>
+        </div>
+        <div class="ph-rail p1" aria-hidden="true"><span class="dot"></span></div>
+        <div class="ph-body">
+          <span class="lbl" data-l="es">Modo de trabajo</span>
+          <span class="lbl" data-l="en">Way of working</span>
+          <p>
+            <span data-l="es">WinForms y SQL escrito a mano dentro de cadenas de texto. Sin ORM y sin nada que ayude.</span>
+            <span data-l="en">WinForms and SQL hand-written inside strings. No ORM, nothing helping.</span>
+          </p>
+          <span class="lbl" data-l="es">Hito</span>
+          <span class="lbl" data-l="en">Milestone</span>
+          <p class="hit">
+            <span data-l="es">Un agente propio en C# sobre TCP controlando <b>130</b> equipos desde una consola.</span>
+            <span data-l="en">My own C# agent over TCP driving <b>130</b> machines from one console.</span>
+          </p>
+        </div>
+
+        <div class="ph-head">
+          <span class="yr">2017 — 2023</span>
+          <span class="co" data-l="es">Freelance</span>
+          <span class="co" data-l="en">Freelance</span>
+          <span class="role" data-l="es">Desarrollador de producto</span>
+          <span class="role" data-l="en">Product developer</span>
+        </div>
+        <div class="ph-rail p2" aria-hidden="true"><span class="dot"></span></div>
+        <div class="ph-body">
+          <span class="lbl" data-l="es">Modo de trabajo</span>
+          <span class="lbl" data-l="en">Way of working</span>
+          <p>
+            <span data-l="es">Cinco capas, informes RDLC y controles propios. El mismo núcleo, industrializado para dos clientes.</span>
+            <span data-l="en">Five layers, RDLC reports and bespoke controls. One core, productised for two clients.</span>
+          </p>
+          <span class="lbl" data-l="es">Hito</span>
+          <span class="lbl" data-l="en">Milestone</span>
+          <p class="hit">
+            <span data-l="es">Un punto de venta que lleva <b>5</b> años en producción.</span>
+            <span data-l="en">A point-of-sale system <b>5</b> years into production.</span>
+          </p>
+        </div>
+
+        <div class="ph-head">
+          <span class="yr">2021 — 2022</span>
+          <span class="co">Transfiriendo SA</span>
+          <span class="role" data-l="es">Desarrollador senior</span>
+          <span class="role" data-l="en">Senior developer</span>
+        </div>
+        <div class="ph-rail p3" aria-hidden="true"><span class="dot"></span></div>
+        <div class="ph-body">
+          <span class="lbl" data-l="es">Modo de trabajo</span>
+          <span class="lbl" data-l="en">Way of working</span>
+          <p>
+            <span data-l="es">API REST y Angular en un dominio regulado, donde equivocarse tiene consecuencias legales.</span>
+            <span data-l="en">REST API and Angular in a regulated domain, where a mistake has legal consequences.</span>
+          </p>
+          <span class="lbl" data-l="es">Hito</span>
+          <span class="lbl" data-l="en">Milestone</span>
+          <p class="hit">
+            <span data-l="es">La herramienta de nómina electrónica, construida desde cero.</span>
+            <span data-l="en">The electronic payroll tool, built from scratch.</span>
+          </p>
+        </div>
+
+        <div class="ph-head">
+          <span class="yr">2022 — 2023</span>
+          <span class="co">FIBO Technologies</span>
+          <span class="role" data-l="es">Jefe de proyecto</span>
+          <span class="role" data-l="en">Project lead</span>
+        </div>
+        <div class="ph-rail p4" aria-hidden="true"><span class="dot"></span></div>
+        <div class="ph-body">
+          <span class="lbl" data-l="es">Modo de trabajo</span>
+          <span class="lbl" data-l="en">Way of working</span>
+          <p>
+            <span data-l="es">Deja de escribirlo todo: estima, reparte y revisa. El código de otros empieza a importar.</span>
+            <span data-l="en">Stops writing everything: estimates, delegates, reviews. Other people's code starts to matter.</span>
+          </p>
+          <span class="lbl" data-l="es">Hito</span>
+          <span class="lbl" data-l="en">Milestone</span>
+          <p class="hit">
+            <span data-l="es">Plataforma de criptomonedas en .NET 6 con seguridad híbrida en blockchain.</span>
+            <span data-l="en">A cryptocurrency platform on .NET 6 with hybrid blockchain security.</span>
+          </p>
+        </div>
+
+        <div class="ph-head">
+          <span class="yr">2023 — 2024</span>
+          <span class="co">ClickPalm</span>
+          <span class="role" data-l="es">Arquitecto de software</span>
+          <span class="role" data-l="en">Software architect</span>
+        </div>
+        <div class="ph-rail p5 fan" aria-hidden="true"><span class="dot"></span></div>
+        <div class="ph-body">
+          <span class="lbl" data-l="es">Modo de trabajo</span>
+          <span class="lbl" data-l="en">Way of working</span>
+          <p>
+            <span data-l="es">El diseño manda sobre la sintaxis. Clean Architecture, CQRS, y una migración hecha con red.</span>
+            <span data-l="en">Design outranks syntax. Clean Architecture, CQRS, and a migration done with a safety net.</span>
+          </p>
+          <span class="lbl" data-l="es">Hito</span>
+          <span class="lbl" data-l="en">Milestone</span>
+          <p class="hit">
+            <span data-l="es"><b>450</b> endpoints, y el sistema heredado migrado sin parar el negocio.</span>
+            <span data-l="en"><b>450</b> endpoints, and the legacy system migrated without stopping the business.</span>
+          </p>
+        </div>
+
+        <div class="ph-head">
+          <span class="yr" data-l="es">2024 — hoy</span>
+          <span class="yr" data-l="en">2024 — today</span>
+          <span class="co">ClickPalm</span>
+          <span class="role" data-l="es">Arquitecto e IA aplicada</span>
+          <span class="role" data-l="en">Architect, applied AI</span>
+        </div>
+        <div class="ph-rail p6 fan on end" aria-hidden="true"><span class="dot"></span></div>
+        <div class="ph-body">
+          <span class="lbl" data-l="es">Modo de trabajo</span>
+          <span class="lbl" data-l="en">Way of working</span>
+          <p>
+            <span data-l="es">Orquesta agentes bajo reglas escritas y verifica lo que producen. El esfuerzo se va al criterio y a la medición.</span>
+            <span data-l="en">Orchestrates agents under written rules and verifies what they produce. The effort moves to judgement and measurement.</span>
+          </p>
+          <span class="lbl" data-l="es">Hito</span>
+          <span class="lbl" data-l="en">Milestone</span>
+          <p class="hit">
+            <span data-l="es"><b>89</b> modelos entrenados, F1 de <b>0,995</b>, y dos bancos que deciden si algo se publica.</span>
+            <span data-l="en"><b>89</b> models trained, F1 of <b>0.995</b>, and two harnesses that decide whether anything ships.</span>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pilares ─────────────────────────────────────────────── -->
+<section id="perfil">
+  <div class="shell">
+    <div class="sec-head">
+      <span class="eyebrow" data-l="es">Fortalezas</span>
+      <span class="eyebrow" data-l="en">Strengths</span>
+      <h2>
+        <span data-l="es">Mis fortalezas, y en qué me apoyo para trabajar</span>
+        <span data-l="en">My strengths, and what I lean on to work</span>
+      </h2>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <span class="k">01</span>
+        <h3><span data-l="es">Criterio ganado antes de la herramienta</span><span data-l="en">Judgement earned before the tool</span></h3>
+        <p>
+          <span data-l="es">Escribí a mano acceso a datos sin ORM, un motor de impresión sobre rollos térmicos, tres generaciones de sincronización sin conexión y un intérprete de plantillas persistido en base de datos. Todo eso antes de que existiera algo que lo escribiera por mí. Hoy oriento agentes, y ese recorrido es lo que me permite revisar lo que producen.</span>
+          <span data-l="en">I hand-wrote data access without an ORM, a print engine for thermal receipt rolls, three generations of offline sync, and a template interpreter persisted in a database. All of it before anything existed that could write it for me. Today I direct agents, and that background is what lets me review what they produce.</span>
+        </p>
+      </div>
+      <div class="pillar">
+        <span class="k">02</span>
+        <h3><span data-l="es">Mido lo que construyo</span><span data-l="en">I measure what I build</span></h3>
+        <p>
+          <span data-l="es">Dos bancos de pruebas propios con verdad de referencia medida contra la base de producción, bloques de seguridad separados de los de datos, y veredictos fechados. Nueve de nueve casos de inyección superados y aislamiento entre clientes verificado con tokens reales.</span>
+          <span data-l="en">Two purpose-built evaluation harnesses with ground truth measured against the production database, security blocks separated from data blocks, and dated verdicts. Nine of nine prompt-injection cases passed, and tenant isolation verified with real tokens.</span>
+        </p>
+      </div>
+      <div class="pillar">
+        <span class="k">03</span>
+        <h3><span data-l="es">Un ciclo de aprendizaje completo, no un cuaderno</span><span data-l="en">A full learning cycle, not a notebook</span></h3>
+        <p>
+          <span data-l="es">Captura propia con dron, fotogrametría, etiquetado humano, preentrenamiento auto-supervisado, entrenamiento, exportación a ONNX, inferencia distribuida y revisión humana. La cadena entera, en producción y con las cifras medidas en cada tramo.</span>
+          <span data-l="en">Own drone capture, photogrammetry, human labelling, self-supervised pre-training, training, ONNX export, distributed inference and human review. The whole chain, in production, with measured figures at every stage.</span>
+        </p>
+      </div>
+      <div class="pillar">
+        <span class="k">04</span>
+        <h3><span data-l="es">Del hardware a la pantalla</span><span data-l="en">From the hardware to the screen</span></h3>
+        <p>
+          <span data-l="es">Rust de sistemas, backend .NET, frontend WebGL sin framework, móvil sin conexión, datos geoespaciales y optimización combinatoria. Bajo al nivel que haga falta, incluido el código fuente de una dependencia cuando el síntoma no cuadra.</span>
+          <span data-l="en">Systems Rust, .NET backend, framework-free WebGL frontend, offline mobile, geospatial data and combinatorial optimisation. I go down to whatever level it takes, including a dependency's source when the symptom doesn't add up.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Trabajo ─────────────────────────────────────────────── -->
+<section id="trabajo">
+  <div class="shell">
+    <div class="sec-head">
+      <span class="eyebrow" data-l="es">Trabajo seleccionado</span>
+      <span class="eyebrow" data-l="en">Selected work</span>
+      <h2>
+        <span data-l="es">De un agente en red a un detector por visión</span>
+        <span data-l="en">From a network agent to a vision detector</span>
+      </h2>
+      <p>
+        <span data-l="es">Doce piezas en orden cronológico. Cada una lleva la marca de cómo se construyó: <strong>a mano</strong>, que es como trabajé los primeros ocho años, o <strong>con agentes</strong> orquestados bajo reglas escritas, que es como trabajo desde 2024.</span>
+        <span data-l="en">Twelve pieces in chronological order. Each carries a mark for how it was built: <strong>by hand</strong>, which is how I worked for the first eight years, or <strong>with agents</strong> orchestrated under written rules, which is how I have worked since 2024.</span>
+      </p>
+      <p class="small">
+        <span data-l="es">Los clientes finales no se nombran: cada proyecto se describe por su dominio y por sus cifras.</span>
+        <span data-l="en">End clients are not named: each project is described by its domain and its figures.</span>
+      </p>
+    </div>
+
+    <div class="work">
+
+      <article class="entry">
+        <div class="entry-meta">
+          <span class="yr">2016 — 2020</span>
+          <span class="tag hand" data-l="es">A mano</span>
+          <span class="tag hand" data-l="en">By hand</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">Un agente en red para 130 equipos, y el sistema que los gobernaba</span><span data-l="en">A network agent for 130 machines, and the system that governed them</span></h3>
+          <p>
+            <span data-l="es">La universidad tenía más de veinte laboratorios y más de mil equipos, y ningún inventario fiable. Construí el sistema que los administraba —préstamos de equipo y de sala, hojas de vida de máquina, mantenimientos, carga de ficheros y estadísticas— y sobre él un agente propio en C# que hablaba por TCP con cada computador de la red. Desde una consola central se enviaban mensajes y ficheros, y se controlaba el uso de cada puesto.</span>
+            <span data-l="en">The university had over twenty labs and more than a thousand machines, and no reliable inventory. I built the system that managed them — equipment and room loans, per-machine service records, maintenance, file uploads and statistics — and on top of it my own C# agent talking over TCP to every computer on the network. From a central console you could send messages and files, and control usage at each station.</span>
+          </p>
+          <div class="metrics">
+            <div class="metric"><b>20<span class="u">+</span></b><span data-l="es">laboratorios administrados</span><span data-l="en">labs administered</span></div>
+            <div class="metric"><b>1.000<span class="u">+</span></b><span data-l="es">equipos en inventario</span><span data-l="en">machines under inventory</span></div>
+            <div class="metric"><b class="hi">130</b><span data-l="es">agentes en red, desde una consola</span><span data-l="en">networked agents, from one console</span></div>
+            <div class="metric"><b>4</b><span data-l="es">años en el puesto</span><span data-l="en">years in the role</span></div>
+          </div>
+          <p class="small">
+            <span data-l="es">Escribir un protocolo sobre TCP y desplegarlo en 130 máquinas fue la primera vez que resolví algo así por mi cuenta, y de ahí salió el hábito que todavía tengo: ante un problema operativo, construir la herramienta.</span>
+            <span data-l="en">Writing a protocol over TCP and deploying it to 130 machines was the first time I solved something like that on my own, and it is where the habit I still have came from: faced with an operational problem, build the tool.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">C#</span><span class="chip">.NET Framework</span><span class="chip">WinForms</span>
+            <span class="chip">TCP/IP</span><span class="chip">SQL Server</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <span class="yr">2020 — 2022</span>
+          <span class="tag hand" data-l="es">A mano</span>
+          <span class="tag hand" data-l="en">By hand</span>
+          <span class="tag own" data-l="es">Producto propio</span>
+          <span class="tag own" data-l="en">Own product</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">SISWallet, una cartera de cobros y costos en el móvil</span><span data-l="en">SISWallet, a receivables and costs wallet on mobile</span></h3>
+          <p>
+            <span data-l="es">Una cartera para llevar cobros, costos y saldos desde el teléfono, con su propio API detrás y un panel de administración aparte. Fue mi primer producto multiplataforma de verdad y la primera vez que separé el backend desde el primer día, en lugar de dejar la lógica dentro de la aplicación, que es lo que había hecho hasta entonces.</span>
+            <span data-l="en">A wallet for tracking receivables, costs and balances from a phone, with its own API behind it and a separate admin panel. It was my first genuinely cross-platform product, and the first time I separated the backend from day one instead of leaving the logic inside the app, which is what I had done until then.</span>
+          </p>
+          <p class="small">
+            <span data-l="es">Marca el punto en que dejo de pensar en programas y empiezo a pensar en sistemas: un servicio, varios clientes y un contrato entre ellos.</span>
+            <span data-l="en">It marks the point where I stopped thinking in programs and started thinking in systems: one service, several clients, and a contract between them.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">C#</span><span class="chip">.NET MAUI</span><span class="chip">Web API</span>
+            <span class="chip">SQL Server</span><span class="chip">JWT</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <span class="yr" data-l="es">2021 — hoy</span>
+          <span class="yr" data-l="en">2021 — today</span>
+          <span class="tag hand" data-l="es">A mano</span>
+          <span class="tag hand" data-l="en">By hand</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">Punto de venta y facturación, cinco años en producción</span><span data-l="en">Point of sale and invoicing, five years in production</span></h3>
+          <p>
+            <span data-l="es">Ciclo completo de restaurante: mesas, comanda a cocina, precuenta, factura, cierre de turno, inventario de insumos, nómina de empleados y centro de estadísticas. Después industrialicé el mismo núcleo para un segundo cliente, con instalador propio y con informes que divergen del primero. Sigue recibiendo mantenimiento en 2026.</span>
+            <span data-l="en">The full restaurant cycle: tables, kitchen tickets, pre-bill, invoice, shift close, supply inventory, staff payroll and a statistics centre. I later productised the same core for a second client, with its own installer and reports that diverge from the first. It is still being maintained in 2026.</span>
+          </p>
+          <div class="metrics">
+            <div class="metric"><b class="hi">5</b><span data-l="es">años en producción, sin interrupción</span><span data-l="en">years in production, uninterrupted</span></div>
+            <div class="metric"><b>2</b><span data-l="es">clientes, con instalador propio cada uno</span><span data-l="en">clients, each with its own installer</span></div>
+            <div class="metric"><b>138</b><span data-l="es">formularios entre las dos variantes</span><span data-l="en">forms across the two variants</span></div>
+            <div class="metric"><b>240</b><span data-l="es">commits de mantenimiento</span><span data-l="en">maintenance commits</span></div>
+          </div>
+          <p class="small">
+            <span data-l="es">Dos piezas merecen contarse. Un motor de impresión propio que renderiza el informe página a página con la geometría del papel leída de la configuración, para funcionar en rollos térmicos de 58 y 80 milímetros, que es justo donde las herramientas estándar fallan. Y una telemetría que, cuando algo se rompe, envía por correo el error con una captura de pantalla adjunta: soporte remoto sin acceso a la máquina del cliente.</span>
+            <span data-l="en">Two pieces are worth telling. A bespoke print engine that renders the report page by page with the paper geometry read from configuration, so it works on 58 and 80 millimetre thermal rolls, which is exactly where standard tooling fails. And telemetry that, when something breaks, emails the error with a screenshot attached: remote support without access to the client's machine.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">.NET Framework 4.8</span><span class="chip">WinForms</span>
+            <span class="chip">SQL Server</span><span class="chip">ADO.NET</span><span class="chip">RDLC</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <span class="yr">2021 — 2022</span>
+          <span class="tag hand" data-l="es">A mano</span>
+          <span class="tag hand" data-l="en">By hand</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">Nómina electrónica, en un dominio donde el error es legal</span><span data-l="en">Electronic payroll, where an error is a legal one</span></h3>
+          <p>
+            <span data-l="es">Construí desde cero la herramienta de emisión de nóminas electrónicas, y mantuve la plataforma de facturación electrónica que la rodea, formada por un API REST y una interfaz en Angular. Es mi única experiencia en un dominio regulado, donde el software no tiene que cuadrar con lo que pide el cliente sino con lo que exige una norma externa, y donde un documento mal emitido tiene consecuencias fuera del sistema.</span>
+            <span data-l="en">I built the electronic payroll tool from scratch, and maintained the electronic invoicing platform around it, made up of a REST API and an Angular interface. It is my only experience in a regulated domain, where the software has to match not what the client asks for but what an external regulation demands, and where a badly issued document has consequences outside the system.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">.NET Framework</span><span class="chip">C#</span><span class="chip">Angular</span>
+            <span class="chip">SOAP</span><span class="chip">JWT</span><span class="chip">SQL Server</span><span class="chip">JMeter</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <span class="yr">2022 — 2023</span>
+          <span class="tag hand" data-l="es">A mano</span>
+          <span class="tag hand" data-l="en">By hand</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">Un monedero de criptomonedas con las claves generadas en casa</span><span data-l="en">A cryptocurrency wallet with keys generated in-house</span></h3>
+          <p>
+            <span data-l="es">Análisis y desarrollo desde cero de una plataforma de criptomonedas, como jefe de proyecto y con un equipo a cargo. La pieza de la que más aprendí fue el monedero: <strong>generación propia de los pares de clave pública y privada</strong>, un esquema de seguridad híbrida en blockchain que combina varios protocolos de cifrado, transacciones reales contra Coinbase y consumo de cotizaciones en tiempo real.</span>
+            <span data-l="en">Analysis and development from scratch of a cryptocurrency platform, as project lead with a team under me. The piece I learnt the most from was the wallet: <strong>generating the public and private key pairs myself</strong>, a hybrid blockchain security scheme combining several encryption protocols, real transactions against Coinbase, and live price feeds.</span>
+          </p>
+          <p class="small">
+            <span data-l="es">Se hizo en 2022, cuando todavía no había herramientas de IA a las que recurrir: la criptografía salió de leer publicaciones e investigaciones universitarias y llevarlas al código. Es el trabajo del que más aprendí sobre entrar en un campo que no conocía a partir de la literatura y salir con algo que funciona, además en un sistema que mueve dinero de verdad.</span>
+            <span data-l="en">It was done in 2022, when there were still no AI tools to fall back on: the cryptography came from reading academic papers and university research and taking them to code. It is the work I learnt the most from about entering a field I didn't know from the literature and coming out with something that works, in a system that moves real money at that.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">.NET 6</span><span class="chip">C#</span><span class="chip">Azure</span>
+            <span class="chip">Blockchain</span><span class="chip" data-l="es">Criptografía</span><span class="chip" data-l="en">Cryptography</span>
+            <span class="chip">Coinbase API</span><span class="chip">Redis</span><span class="chip">Scrum</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <span class="yr">2023 — 2024</span>
+          <span class="tag hand" data-l="es">A mano</span>
+          <span class="tag hand" data-l="en">By hand</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">La plataforma agroindustrial, construida a mano</span><span data-l="en">The agri-industrial platform, built by hand</span></h3>
+          <p>
+            <span data-l="es">Lo importante de esta pieza es <strong>cuándo</strong> se hizo. La reconstrucción arrancó cuando la IA generativa apenas empezaba a existir como herramienta de trabajo, y se escribió a mano de principio a fin: la arquitectura, las 79 tablas, las 133 migraciones, el motor de sincronización y los 450 endpoints. Clean Architecture con CQRS, y un patrón estrangulador para que el sistema heredado siguiera operando durante toda la migración.</span>
+            <span data-l="en">What matters about this piece is <strong>when</strong> it was built. The rebuild started when generative AI barely existed as a working tool, and it was written by hand from end to end: the architecture, the 79 tables, the 133 migrations, the sync engine and the 450 endpoints. Clean Architecture with CQRS, and a strangler pattern so the legacy system kept running throughout the migration.</span>
+          </p>
+          <div class="metrics">
+            <div class="metric"><b>450</b><span data-l="es">endpoints REST</span><span data-l="en">REST endpoints</span></div>
+            <div class="metric"><b>79</b><span data-l="es">tablas en PostgreSQL / PostGIS</span><span data-l="en">PostgreSQL / PostGIS tables</span></div>
+            <div class="metric"><b>133</b><span data-l="es">migraciones de esquema</span><span data-l="en">schema migrations</span></div>
+            <div class="metric"><b class="hi">0</b><span data-l="es">días de parada del negocio</span><span data-l="en">days of business downtime</span></div>
+          </div>
+          <p class="small">
+            <span data-l="es">El motor de ETL son 15.281 líneas con cortacircuitos, puntos de control para reanudar, validación de esquema, reproceso selectivo por día y operario, y reasignación por proximidad temporal cuando el GPS no es fiable. Corre en un ejecutable propio, afinado para tandas de más de doce horas.</span>
+            <span data-l="en">The ETL engine is 15,281 lines with circuit breakers, checkpoints for resuming, schema validation, selective reprocessing by day and operator, and temporal-proximity reassignment when GPS isn't reliable. It runs as its own executable, tuned for runs of twelve hours and more.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">.NET 8</span><span class="chip">Clean Architecture</span><span class="chip">CQRS</span>
+            <span class="chip">EF Core</span><span class="chip">PostGIS</span><span class="chip">Redis</span>
+            <span class="chip">SignalR</span><span class="chip">Hangfire</span><span class="chip">Docker</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <span class="yr">2024 — 2025</span>
+          <span class="tag hand" data-l="es">A mano</span>
+          <span class="tag hand" data-l="en">By hand</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">Un intérprete de plantillas persistido en base de datos</span><span data-l="en">A template interpreter persisted in a database</span></h3>
+          <p>
+            <span data-l="es">No es un generador de informes: es un intérprete. Un administrador define, sin tocar código, las variables que puntúan las respuestas de un test, las macros compuestas con su orden de evaluación explícito, los condicionales con conectores lógicos que activan o no cada fragmento del documento, y las gráficas paramétricas. Todo persistido en treinta y siete tablas, con un editor visual encima.</span>
+            <span data-l="en">Not a report generator — an interpreter. An administrator defines, without touching code, the variables that score a test's answers, the composite macros with their explicit evaluation order, the conditionals with logical connectors that switch each document fragment on or off, and the parametric charts. All persisted across thirty-seven tables, with a visual editor on top.</span>
+          </p>
+          <div class="metrics">
+            <div class="metric"><b>37</b><span data-l="es">tablas que modelan el lenguaje</span><span data-l="en">tables modelling the language</span></div>
+            <div class="metric"><b>47.780</b><span data-l="es">líneas de C#</span><span data-l="en">lines of C#</span></div>
+            <div class="metric"><b class="hi">4.486</b><span data-l="es">líneas del intérprete</span><span data-l="en">lines in the interpreter itself</span></div>
+            <div class="metric"><b>5</b><span data-l="es">niveles de jerarquía del documento</span><span data-l="en">levels of document hierarchy</span></div>
+          </div>
+          <p class="small">
+            <span data-l="es">Integrado de punta a punta entre la pasarela de pago y la plataforma de encuestas, con doble camino de HTML a PDF y caché distribuida. Es el trabajo en el que más me tocó pensar en abstracciones, y también está escrito íntegramente a mano.</span>
+            <span data-l="en">Integrated end to end between the payment gateway and the survey platform, with two HTML-to-PDF paths and distributed caching. It is the work where I had to think hardest in abstractions, and it too is written entirely by hand.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">.NET 6</span><span class="chip">PostgreSQL</span><span class="chip">WinForms</span>
+            <span class="chip">iText7</span><span class="chip">Puppeteer</span><span class="chip">Redis</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <span class="yr">2024 — 2026</span>
+          <span class="tag ai" data-l="es">Con agentes</span>
+          <span class="tag ai" data-l="en">With agents</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">Detección de palma de aceite sobre ortofotos de dron</span><span data-l="en">Oil palm detection on drone orthophotos</span></h3>
+          <p>
+            <span data-l="es">Una plantación necesita saber cuántas palmas tiene, dónde están y dónde falta sembrar. Diseñé y entrené desde cero una red U-Net de mapa de calor de 1,1 millones de parámetros que localiza cada planta con coordenadas sub-métricas sobre imagen aérea. El salto grande de calidad no vino de cambiar de modelo, sino de diagnosticar un desalineamiento entre las etiquetas y la imagen.</span>
+            <span data-l="en">A plantation needs to know how many palms it has, where they are, and where planting is missing. I designed and trained from scratch a 1.1M-parameter heat-map U-Net that locates each plant with sub-metre coordinates on aerial imagery. The big quality jump didn't come from changing models — it came from diagnosing a misalignment between labels and imagery.</span>
+          </p>
+          <div class="metrics">
+            <div class="metric"><b class="hi">0,477 → 0,977</b><span data-l="es">recall, tras corregir las etiquetas</span><span data-l="en">recall, after fixing the labels</span></div>
+            <div class="metric"><b>0,995</b><span data-l="es">F1, verificado a mano</span><span data-l="en">F1, hand-verified</span></div>
+            <div class="metric"><b>±20 cm</b><span data-l="es">precisión relativa</span><span data-l="en">relative accuracy</span></div>
+            <div class="metric"><b>76.120</b><span data-l="es">plantas activas en producción</span><span data-l="en">live plants in production</span></div>
+          </div>
+          <p class="small">
+            <span data-l="es">Teselado con 25 % de solape y deduplicación en metros del sistema de referencia, no en píxeles. Submuestreo leyendo el nivel nativo del GeoTIFF: de 1.470 a 55 megapíxeles por pasada. Lectura remota por rangos HTTP, sin descargar la imagen entera.</span>
+            <span data-l="en">Tiling with 25 % overlap and deduplication in CRS metres, not pixels. Sub-sampling by reading the GeoTIFF's native overview level: 1,470 down to 55 megapixels per pass. Remote reads over HTTP ranges, without downloading the whole image.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">PyTorch</span><span class="chip">ONNX Runtime</span><span class="chip">U-Net</span>
+            <span class="chip">GDAL</span><span class="chip">rasterio</span><span class="chip">CUDA</span><span class="chip">Python</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <span class="yr">2025 — 2026</span>
+          <span class="tag ai" data-l="es">Con agentes</span>
+          <span class="tag ai" data-l="en">With agents</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">Rutas de recorrido con Google OR-Tools</span><span data-l="en">Field route optimisation with Google OR-Tools</span></h3>
+          <p>
+            <span data-l="es">Un operario tiene que recorrer miles de plantas en una jornada. Problema del viajante con metaheurística seleccionable, sobre más de setenta y seis mil puntos geolocalizados. Lo que lo aleja de un ejemplo de manual son las restricciones del terreno: la matriz de distancias penaliza los arcos que cruzan el límite del lote, y el grafo se analiza en busca de componentes desconectadas que se dividen solas.</span>
+            <span data-l="en">A field operator has to walk thousands of plants in a shift. Travelling-salesman with selectable metaheuristic, over more than seventy-six thousand geolocated points. What takes it away from a textbook example are the constraints of the terrain: the distance matrix penalises arcs that cross the plot boundary, and the graph is analysed for disconnected components that split themselves.</span>
+          </p>
+          <div class="metrics">
+            <div class="metric"><b>3</b><span data-l="es">metaheurísticas: GLS, recocido, tabú</span><span data-l="en">metaheuristics: GLS, annealing, tabu</span></div>
+            <div class="metric"><b>76.000<span class="u">+</span></b><span data-l="es">puntos candidatos</span><span data-l="en">candidate points</span></div>
+            <div class="metric"><b class="hi">O(n log n)</b><span data-l="es">emparejamiento de retícula, antes cúbico</span><span data-l="en">lattice matching, previously cubic</span></div>
+            <div class="metric"><b>400 M</b><span data-l="es">comparaciones evitadas por lote</span><span data-l="en">comparisons avoided per plot</span></div>
+          </div>
+          <p class="small">
+            <span data-l="es">En el mismo dominio: diagrama de Voronoi transaccional que reasigna las visitas al mover una planta, como operación atómica en segundo plano, con detección de instantánea obsoleta y abortos tipados.</span>
+            <span data-l="en">In the same domain: a transactional Voronoi diagram that reassigns visits when a plant moves, as a single atomic background operation, with stale-snapshot detection and typed aborts.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">Google OR-Tools</span><span class="chip">NetTopologySuite</span>
+            <span class="chip">C#</span><span class="chip">Voronoi</span><span class="chip">PostGIS</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <span class="yr">2026</span>
+          <span class="tag ai" data-l="es">Con agentes</span>
+          <span class="tag ai" data-l="en">With agents</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">Fotogrametría con dron, de la foto a la tesela</span><span data-l="en">Drone photogrammetry, from photo to tile</span></h3>
+          <p>
+            <span data-l="es">Una cadena de diez pasos que convierte miles de fotografías aéreas en ortofoto, modelo de superficie, modelo de terreno y modelo de altura de copa, los sube a la nube y los tesela. Si una tanda se corta se relanza igual: cada paso deja su marca de estado y los ya hechos se saltan.</span>
+            <span data-l="en">A ten-step chain that turns thousands of aerial photographs into an orthophoto, a surface model, a terrain model and a canopy height model, uploads them and tiles them. If a batch is interrupted it just gets relaunched: every step leaves a state marker and completed ones are skipped.</span>
+          </p>
+          <div class="metrics">
+            <div class="metric"><b>26</b><span data-l="es">vuelos procesados</span><span data-l="en">flights processed</span></div>
+            <div class="metric"><b>5.351</b><span data-l="es">fotografías</span><span data-l="en">photographs</span></div>
+            <div class="metric"><b class="hi">13 h → 14 min</b><span data-l="es">densificación, al activar la GPU</span><span data-l="en">densification, after enabling the GPU</span></div>
+            <div class="metric"><b>0</b><span data-l="es">ficheros borrados sin verificar</span><span data-l="en">files deleted unverified</span></div>
+          </div>
+          <p class="small">
+            <span data-l="es">La regla de limpieza no tiene excepciones: si no está verificado byte a byte contra el almacenamiento remoto, no se borra. Y verifiqué contra el código fuente de la herramienta que de sus diez etapas solo dos tienen camino a GPU, para saber que acelerar más no compensaba.</span>
+            <span data-l="en">The cleanup rule has no exceptions: if it isn't byte-for-byte verified against remote storage, it doesn't get deleted. And I checked against the tool's source that only two of its ten stages have a GPU path, to know that accelerating further wasn't worth it.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">OpenDroneMap</span><span class="chip">GDAL</span><span class="chip">COG</span>
+            <span class="chip">PMTiles</span><span class="chip">AWS S3</span><span class="chip">Bash</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <span class="yr">2026</span>
+          <span class="tag ai" data-l="es">Con agentes</span>
+          <span class="tag ai" data-l="en">With agents</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">Bancos de pruebas para dos agentes en producción</span><span data-l="en">Evaluation harnesses for two production agents</span></h3>
+          <p>
+            <span data-l="es">Construidos para decidir con datos, y no con impresiones, si un asistente podía publicarse. Ciento dieciocho casos en formato ejecutable, con su verdad de referencia medida contra la base de producción y las consultas que la reproducen. La prueba de aislamiento pregunta por un periodo en el que la segunda empresa aún no existía: cualquier cifra distinta de cero delata una fuga.</span>
+            <span data-l="en">Built to decide with data, not impressions, whether an assistant was ready to ship. One hundred and eighteen executable cases, each with ground truth measured against the production database and the queries that reproduce it. The isolation probe asks about a period when the second company didn't yet exist: any figure other than zero reveals a leak.</span>
+          </p>
+          <div class="metrics">
+            <div class="metric"><b>118</b><span data-l="es">casos versionados</span><span data-l="en">versioned cases</span></div>
+            <div class="metric"><b class="hi">9 / 9</b><span data-l="es">inyección de prompt, incluida la indirecta</span><span data-l="en">prompt injection, indirect included</span></div>
+            <div class="metric"><b>0</b><span data-l="es">fugas entre clientes</span><span data-l="en">cross-tenant leaks</span></div>
+            <div class="metric"><b>45 / 45</b><span data-l="es">casos automáticos en verde</span><span data-l="en">automated cases green</span></div>
+          </div>
+          <p class="small">
+            <span data-l="es">También detecté que una de las dos vías del propio banco llevaba semanas midiendo otra cosa, por unas cabeceras de identidad que faltaban, y la corregí antes de dar por buenos sus resultados. Revisar el instrumento antes de fiarme de lo que dice me parece parte del trabajo de medir.</span>
+            <span data-l="en">I also found that one of the harness's own execution paths had spent weeks measuring something else, due to missing identity headers, and fixed it before trusting any of its results. Checking the instrument before I trust what it says feels to me like part of measuring.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">Python</span><span class="chip">text-to-SQL</span><span class="chip">RAG</span>
+            <span class="chip">ChromaDB</span><span class="chip">PostgreSQL</span><span class="chip">Multi-tenant</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <span class="yr">2026</span>
+          <span class="tag ai" data-l="es">Con agentes</span>
+          <span class="tag ai" data-l="en">With agents</span>
+          <span class="tag own" data-l="es">Proyecto propio</span>
+          <span class="tag own" data-l="en">Personal project</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">NexoDeck — panel de control multiplataforma en Rust</span><span data-l="en">NexoDeck — cross-platform control deck in Rust</span></h3>
+          <p>
+            <span data-l="es">Convierte un teléfono o una tableta en botonera física del PC y en monitor de hardware en vivo. Núcleo compartido en Rust y una sola interfaz en Flutter, unidos por FFI: el mismo binario corre en el escritorio y dentro del APK. Escrito entero por mí en ocho semanas.</span>
+            <span data-l="en">Turns a phone or tablet into a physical control surface for the PC, and a live hardware monitor. A shared Rust core and a single Flutter interface joined over FFI: the same binary runs on the desktop and inside the APK. Written entirely by me in eight weeks.</span>
+          </p>
+          <div class="metrics">
+            <div class="metric"><b class="hi">8</b><span data-l="es">semanas, de cero a instalador</span><span data-l="en">weeks, from zero to installer</span></div>
+            <div class="metric"><b>66.500</b><span data-l="es">líneas escritas a mano</span><span data-l="en">hand-written lines</span></div>
+            <div class="metric"><b>12</b><span data-l="es">crates de Rust</span><span data-l="en">Rust crates</span></div>
+            <div class="metric"><b>3</b><span data-l="es">decisiones de arquitectura documentadas</span><span data-l="en">documented architecture decisions</span></div>
+          </div>
+          <p class="small">
+            <span data-l="es">Contiene un protocolo binario propio versionado, transporte USB por el protocolo de accesorios de Android, TLS autofirmado con fijación de certificado, lectura de temperatura de cada disco por IOCTL sin privilegios de administrador, y un servidor MCP en loopback con tres guardias de seguridad: anfitrión contra reasignación de DNS, rechazo por origen, y comparación de token sin fuga de tiempo.</span>
+            <span data-l="en">It contains a versioned binary protocol of its own, USB transport over Android's accessory protocol, self-signed TLS with certificate pinning, per-disk temperature reads via IOCTL without administrator privileges, and a loopback MCP server with three security guards: host check against DNS rebinding, origin rejection, and constant-time token comparison.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">Rust</span><span class="chip">Flutter</span><span class="chip">flutter_rust_bridge</span>
+            <span class="chip">Tokio</span><span class="chip">MCP</span><span class="chip">Drift</span><span class="chip">.NET 8</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Método ──────────────────────────────────────────────── -->
+<section id="metodo" class="method">
+  <div class="shell">
+    <div class="sec-head">
+      <span class="eyebrow" data-l="es">Cómo trabajo</span>
+      <span class="eyebrow" data-l="en">How I work</span>
+      <h2><span data-l="es">Una variable cada vez, y el instrumento correcto</span><span data-l="en">One variable at a time, and the right instrument</span></h2>
+      <p class="lede">
+        <span data-l="es">Si solo pudiera contar una cosa en una entrevista, sería esta. La pregunta era si añadir un canal de altura de copa al modelo aportaba algo real.</span>
+        <span data-l="en">If I could only tell one story in an interview, it would be this one. The question was whether adding a canopy-height channel to the model actually helped.</span>
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="n">01</span>
+        <h3><span data-l="es">Aislar la variable</span><span data-l="en">Isolate the variable</span></h3>
+        <p>
+          <span data-l="es">Entre el modelo anterior y el candidato cambiaban dos cosas a la vez. Con una sola corrida no habría sabido cuál causó la mejora, así que entrené dos modelos que se diferenciaban en una sola.</span>
+          <span data-l="en">Two things changed at once between the old model and the candidate. A single run wouldn't have told me which caused the gain, so I trained two models differing in exactly one.</span>
+        </p>
+      </div>
+      <div class="step">
+        <span class="n">02</span>
+        <h3><span data-l="es">Descartar el instrumento malo</span><span data-l="en">Discard the wrong instrument</span></h3>
+        <p>
+          <span data-l="es">El F1 sobre etiquetas humanas no daba señal: eran setenta y cuatro plantas, y seis milésimas de diferencia equivalen a una sola. Medir ahí habría sido medir ruido.</span>
+          <span data-l="en">F1 against human labels gave no signal: seventy-four plants, where six thousandths of a point is a single one. Measuring there would have been measuring noise.</span>
+        </p>
+      </div>
+      <div class="step">
+        <span class="n">03</span>
+        <h3><span data-l="es">Medir contra el terreno</span><span data-l="en">Measure against the ground</span></h3>
+        <p>
+          <span data-l="es">Cambié el instrumento por una malla de 1.022 posiciones de siembra verificadas en campo. Con mil puntos de medida en vez de setenta y cuatro, la señal apareció.</span>
+          <span data-l="en">I swapped the instrument for a lattice of 1,022 planting positions verified in the field. With a thousand measurement points instead of seventy-four, the signal appeared.</span>
+        </p>
+      </div>
+      <div class="step">
+        <span class="n">04</span>
+        <h3><span data-l="es">Repetir lo que no fue limpio</span><span data-l="en">Repeat what wasn't clean</span></h3>
+        <p>
+          <span data-l="es">La primera medición no era comparable: los dos modelos corrían a umbrales distintos y parte de la diferencia era del umbral. La repetí antes de concluir nada, y lo dejé escrito.</span>
+          <span data-l="en">The first measurement wasn't comparable: the two models ran at different thresholds, so part of the gap came from the threshold. I repeated it before concluding anything, and wrote that down.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="result">
+      <table>
+        <caption>
+          <span data-l="es">Mismo umbral, misma cobertura. Contra 1.022 posiciones de siembra reales.</span>
+          <span data-l="en">Same threshold, same coverage. Against 1,022 real planting positions.</span>
+        </caption>
+        <thead>
+          <tr>
+            <th><span data-l="es">Modelo</span><span data-l="en">Model</span></th>
+            <th><span data-l="es">Umbral</span><span data-l="en">Threshold</span></th>
+            <th><span data-l="es">Cobertura</span><span data-l="en">Coverage</span></th>
+            <th><span data-l="es">Huecos</span><span data-l="en">Misses</span></th>
+            <th><span data-l="es">Detecciones sobrantes</span><span data-l="en">Spurious detections</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span data-l="es">Sin canal de altura</span><span data-l="en">Without height channel</span></td>
+            <td class="n">0,10</td><td class="n">99,90 %</td><td class="n">1</td><td class="n">23</td>
+          </tr>
+          <tr class="win">
+            <td><span data-l="es">Con canal de altura</span><span data-l="en">With height channel</span></td>
+            <td class="n">0,10</td><td class="n">99,90 %</td><td class="n">1</td><td class="n k">11</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <blockquote>
+      <span data-l="es">Un solo caso crítico impide publicar, por bien que salga el resto. Un asistente que acierta todas las cifras y obedece una inyección es peor que uno que no existe, porque ya se confía en él.</span>
+      <span data-l="en">A single critical case blocks release, however well the rest goes. An assistant that gets every figure right and obeys an injection is worse than one that doesn't exist, because people already trust it.</span>
+    </blockquote>
+    <p class="small" style="margin-top:14px">
+      <span data-l="es">— La regla de salida que escribí para los bancos de pruebas.</span>
+      <span data-l="en">— The release rule I wrote for the evaluation harnesses.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ── Competencias ────────────────────────────────────────── -->
+<section id="competencias">
+  <div class="shell">
+    <div class="sec-head">
+      <span class="eyebrow" data-l="es">Competencias</span>
+      <span class="eyebrow" data-l="en">Skills</span>
+      <h2><span data-l="es">Lo que puedo enseñar en pantalla</span><span data-l="en">What I can show on screen</span></h2>
+      <p class="small">
+        <span data-l="es">La lista es corta a propósito. Cada línea tiene detrás código en producción que puedo abrir y explicar.</span>
+        <span data-l="en">The list is short on purpose. Every line has production code behind it that I can open and walk through.</span>
+      </p>
+    </div>
+
+    <div class="skills">
+      <div class="skill">
+        <h3><span data-l="es">Inteligencia artificial</span><span data-l="en">Artificial intelligence</span></h3>
+        <ul>
+          <li><span data-l="es">Visión por computador: PyTorch, ONNX, U-Net de mapa de calor</span><span data-l="en">Computer vision: PyTorch, ONNX, heat-map U-Net</span></li>
+          <li><span data-l="es">Evaluación con verdad de referencia y pruebas de inyección</span><span data-l="en">Evaluation with ground truth and injection testing</span></li>
+          <li><span data-l="es">Agentes, RAG y memoria vectorial multi-empresa</span><span data-l="en">Agents, RAG and multi-tenant vector memory</span></li>
+          <li><span data-l="es">MLOps: pipeline de cuatro etapas gobernado por API</span><span data-l="en">MLOps: a four-stage pipeline driven by API</span></li>
+          <li><span data-l="es">Modelos locales y en el dispositivo</span><span data-l="en">Local and on-device models</span></li>
+        </ul>
+      </div>
+      <div class="skill">
+        <h3><span data-l="es">Backend y arquitectura</span><span data-l="en">Backend and architecture</span></h3>
+        <ul>
+          <li>C# · .NET Framework, Core, 6, 7, 8</li>
+          <li><span data-l="es">Clean Architecture, CQRS, repositorio y unidad de trabajo</span><span data-l="en">Clean Architecture, CQRS, repository and unit of work</span></li>
+          <li><span data-l="es">ETL a gran escala, con reanudación y cortacircuitos</span><span data-l="en">Large-scale ETL, with resume and circuit breakers</span></li>
+          <li><span data-l="es">Migración de sistemas heredados sin parar el negocio</span><span data-l="en">Legacy migration without stopping the business</span></li>
+          <li><span data-l="es">PostgreSQL, PostGIS, SQL Server, Redis</span><span data-l="en">PostgreSQL, PostGIS, SQL Server, Redis</span></li>
+        </ul>
+      </div>
+      <div class="skill">
+        <h3><span data-l="es">Sistemas</span><span data-l="en">Systems</span></h3>
+        <ul>
+          <li><span data-l="es">Rust: 12 crates, FFI, Tokio, protocolos binarios</span><span data-l="en">Rust: 12 crates, FFI, Tokio, binary protocols</span></li>
+          <li><span data-l="es">IOCTLs de Windows, WMI, PDH, carga dinámica de librerías</span><span data-l="en">Windows IOCTLs, WMI, PDH, dynamic library loading</span></li>
+          <li><span data-l="es">TLS con fijación de certificado, mDNS, USB de bajo nivel</span><span data-l="en">TLS with certificate pinning, mDNS, low-level USB</span></li>
+          <li><span data-l="es">Seguridad aplicada: DNS rebinding, tiempo constante</span><span data-l="en">Applied security: DNS rebinding, constant time</span></li>
+        </ul>
+      </div>
+      <div class="skill">
+        <h3><span data-l="es">Geoespacial</span><span data-l="en">Geospatial</span></h3>
+        <ul>
+          <li><span data-l="es">Fotogrametría: ortofoto, DSM, DTM, altura de copa</span><span data-l="en">Photogrammetry: orthophoto, DSM, DTM, canopy height</span></li>
+          <li>GDAL, rasterio, GeoTIFF, COG, PMTiles</li>
+          <li><span data-l="es">Voronoi, reproyección, teselado vectorial</span><span data-l="en">Voronoi, reprojection, vector tiling</span></li>
+          <li><span data-l="es">Optimización combinatoria con OR-Tools</span><span data-l="en">Combinatorial optimisation with OR-Tools</span></li>
+        </ul>
+      </div>
+      <div class="skill">
+        <h3><span data-l="es">Frontend y móvil</span><span data-l="en">Frontend and mobile</span></h3>
+        <ul>
+          <li>React 19 · TypeScript · Vite · Zustand · TanStack</li>
+          <li><span data-l="es">WebGL con MapLibre y PlayCanvas, sin framework</span><span data-l="en">WebGL with MapLibre and PlayCanvas, framework-free</span></li>
+          <li><span data-l="es">Flutter sin conexión: GPS, NFC, sincronización diferida</span><span data-l="en">Offline Flutter: GPS, NFC, deferred sync</span></li>
+          <li><span data-l="es">Filtros de navegación: Kalman, fusión inercial</span><span data-l="en">Navigation filters: Kalman, inertial fusion</span></li>
+        </ul>
+      </div>
+      <div class="skill">
+        <h3><span data-l="es">Producto y equipo</span><span data-l="en">Product and team</span></h3>
+        <ul>
+          <li><span data-l="es">Liderazgo técnico y gestión con Scrum y Kanban</span><span data-l="en">Technical leadership, Scrum and Kanban</span></li>
+          <li><span data-l="es">Estimación, planificación y venta técnica</span><span data-l="en">Estimation, planning and technical sales</span></li>
+          <li><span data-l="es">Documentación de decisiones y ADR</span><span data-l="en">Decision records and ADRs</span></li>
+          <li><span data-l="es">Orquestación de agentes de código con reglas propias</span><span data-l="en">Orchestrating coding agents under written rules</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contacto ────────────────────────────────────────────── -->
+<section id="contacto" class="contact">
+  <div class="shell">
+    <div class="contact-grid">
+      <div>
+        <span class="eyebrow" data-l="es">Contacto</span>
+        <span class="eyebrow" data-l="en">Get in touch</span>
+        <h2 style="margin-top:14px">
+          <span data-l="es">¿Un problema difícil y datos de verdad?</span>
+          <span data-l="en">A hard problem and real data?</span>
+        </h2>
+        <p class="lede" style="margin-top:16px">
+          <span data-l="es">Trabajo en remoto desde Colombia, en español o en inglés escrito. Me interesan especialmente los proyectos donde haya que medir si algo funciona de verdad, no solo construirlo.</span>
+          <span data-l="en">I work remotely from Colombia, in Spanish or in written English. I'm especially interested in projects where someone has to measure whether a thing actually works, not just build it.</span>
+        </p>
+        <div class="cta-row">
+          <a class="btn pri" id="mail" href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.2"/><path d="m3 6.5 9 6.2 9-6.2"/></svg>
+            <span id="mailText">jdiego9708@gmail.com</span>
+          </a>
+          <a class="btn" href="https://www.linkedin.com/in/juan-diego-duque-599b1225b" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4v11H3v-11Zm7 0h3.8v1.5h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76v5.69h-4V15.4c0-1.37-.03-3.14-1.96-3.14-1.97 0-2.27 1.5-2.27 3.04v5.2H10v-11Z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+      <div class="small" style="max-width:30ch">
+        <span data-l="es">Manizales, Caldas · Colombia<br>UTC−5 · solape amplio con América y media jornada con Europa</span>
+        <span data-l="en">Manizales, Caldas · Colombia<br>UTC−5 · wide overlap with the Americas, half a day with Europe</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell foot">
+    <span class="small">© 2026 Juan Diego Duque</span>
+    <span class="small">
+      <span data-l="es">Hecho sin framework ni empaquetador. Un fichero, tres tipografías, un lienzo.</span>
+      <span data-l="en">Built with no framework and no bundler. One file, three typefaces, one canvas.</span>
+    </span>
+  </div>
+</footer>
+
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const root = document.documentElement;
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch { /* modo privado */ } }
+  };
+
+  /* ── Idioma ────────────────────────────────────────────── */
+  const langBtn = document.getElementById('lang');
+  const langLabel = document.getElementById('langLabel');
+  function setLang(l) {
+    root.lang = l;
+    langLabel.textContent = l === 'es' ? 'EN' : 'ES';
+    langBtn.setAttribute('aria-label', l === 'es' ? 'Switch to English' : 'Cambiar a español');
+  }
+  setLang(store.get('jdd-lang') || 'es');
+  langBtn.addEventListener('click', () => {
+    const next = root.lang === 'es' ? 'en' : 'es';
+    setLang(next); store.set('jdd-lang', next);
+  });
+
+  /* ── Tema ──────────────────────────────────────────────── */
+  const themeBtn = document.getElementById('theme');
+  const icon = document.getElementById('themeIcon');
+  const SUN = '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.2M12 19.4v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.4 12h2.2M19.4 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/>';
+  const MOON = '<path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8Z"/>';
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  function isDark() {
+    const t = root.getAttribute('data-theme');
+    return t ? t === 'dark' : media.matches;
+  }
+  function paintIcon() { icon.innerHTML = isDark() ? MOON : SUN; }
+  const saved = store.get('jdd-theme');
+  if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+  paintIcon();
+  themeBtn.addEventListener('click', () => {
+    const next = isDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    store.set('jdd-theme', next);
+    paintIcon(); readColors();
+  });
+  media.addEventListener('change', () => { paintIcon(); readColors(); });
+
+  /* ── Correo, montado en cliente para no servirlo en claro ── */
+  const user = ['jdiego', '9708'].join('');
+  const host = ['gmail', 'com'].join('.');
+  const addr = user + '@' + host;
+  const mail = document.getElementById('mail');
+  mail.href = 'mailto:' + addr;
+  document.getElementById('mailText').textContent = addr;
+
+  /* ── Barra superior ────────────────────────────────────── */
+  const bar = document.getElementById('bar');
+  const onScroll = () => bar.classList.toggle('stuck', window.scrollY > 8);
+  onScroll();
+  addEventListener('scroll', onScroll, { passive: true });
+
+  /* ── La retícula de siembra ────────────────────────────────
+     Malla triangular, como la siembra real en tresbolillo.
+     Los nodos derivan con ondas superpuestas y un barrido lento
+     los ilumina al pasar, como una pasada de detección.
+     ──────────────────────────────────────────────────────── */
+  const cv = document.getElementById('field');
+  const ctx = cv.getContext('2d', { alpha: true });
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  let W = 0, H = 0, dpr = 1;
+  let nodes = [], links = [];
+  let nodeRGB = '16,60,56', glowRGB = '12,109,100', baseAlpha = 0.3;
+
+  function readColors() {
+    const cs = getComputedStyle(root);
+    nodeRGB = (cs.getPropertyValue('--field-rgb') || nodeRGB).trim();
+    glowRGB = (cs.getPropertyValue('--glow-rgb') || glowRGB).trim();
+    baseAlpha = parseFloat(cs.getPropertyValue('--field-alpha')) || 0.3;
+    if (reduce.matches) draw(0);
+  }
+
+  function build() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    if (!W || !H) return;
+    cv.width = Math.round(W * dpr);
+    cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const gap = W < 600 ? 74 : W < 1100 ? 86 : 96;
+    const rowH = gap * Math.sqrt(3) / 2;
+    const cols = Math.ceil(W / gap) + 3;
+    const rows = Math.ceil(H / rowH) + 3;
+
+    nodes = []; links = [];
+    const idx = [];
+    for (let r = 0; r < rows; r++) {
+      idx[r] = [];
+      for (let c = 0; c < cols; c++) {
+        const x = c * gap + (r % 2 ? gap / 2 : 0) - gap;
+        const y = r * rowH - rowH;
+        idx[r][c] = nodes.length;
+        nodes.push({ bx: x, by: y, x, y, p: x * 0.011 + y * 0.017, g: 0 });
+      }
+    }
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const a = idx[r][c];
+        if (c + 1 < cols) links.push([a, idx[r][c + 1]]);
+        if (r + 1 < rows) {
+          links.push([a, idx[r + 1][c]]);
+          const d = r % 2 ? c + 1 : c - 1;
+          if (d >= 0 && d < cols) links.push([a, idx[r + 1][d]]);
+        }
+      }
+    }
+  }
+
+  function draw(t) {
+    if (!W || !H) return;
+    ctx.clearRect(0, 0, W, H);
+
+    const span = W + H;
+    // El frente de barrido recorre la diagonal y vuelve a empezar
+    const front = ((t * 0.055) % 1.55 - 0.22) * span;
+
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      n.x = n.bx + Math.sin(t * 0.29 + n.p * 1.7) * 11 + Math.sin(t * 0.17 + n.by * 0.012) * 6;
+      n.y = n.by + Math.cos(t * 0.24 + n.p * 1.3) * 9 + Math.sin(t * 0.13 + n.bx * 0.009) * 5;
+      const d = Math.abs((n.bx + n.by) - front);
+      n.g = d < 190 ? Math.pow(1 - d / 190, 2.4) : 0;
+    }
+
+    // Aristas: curva cuadratica con el control desplazado, para que la malla ondule
+    ctx.lineWidth = 1;
+    for (let i = 0; i < links.length; i++) {
+      const a = nodes[links[i][0]], b = nodes[links[i][1]];
+      const g = (a.g + b.g) * 0.5;
+      const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+      const bow = Math.sin(t * 0.21 + (mx + my) * 0.006) * 7;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.quadraticCurveTo(mx + bow, my - bow, b.x, b.y);
+      ctx.strokeStyle = g > 0.02
+        ? 'rgba(' + glowRGB + ',' + (baseAlpha * 0.34 + g * baseAlpha * 1.5).toFixed(3) + ')'
+        : 'rgba(' + nodeRGB + ',' + (baseAlpha * 0.34).toFixed(3) + ')';
+      ctx.stroke();
+    }
+
+    // Nodos: cada uno es una palma de la retícula
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      const r = 1.5 + n.g * 2.1;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = n.g > 0.02
+        ? 'rgba(' + glowRGB + ',' + Math.min(0.92, baseAlpha * 1.5 + n.g * 0.85).toFixed(3) + ')'
+        : 'rgba(' + nodeRGB + ',' + (baseAlpha * 1.25).toFixed(3) + ')';
+      ctx.fill();
+    }
+  }
+
+  let raf = 0, t0 = performance.now();
+  function loop(now) {
+    draw((now - t0) / 1000);
+    raf = requestAnimationFrame(loop);
+  }
+  function start() {
+    if (reduce.matches) { draw(0); return; }
+    if (!raf) { t0 = performance.now() - 4000; raf = requestAnimationFrame(loop); }
+  }
+  function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+
+  let resizeTimer = 0;
+  addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { build(); if (reduce.matches) draw(0); }, 160);
+  }, { passive: true });
+
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+  reduce.addEventListener('change', () => { stop(); build(); start(); });
+
+  build(); readColors(); start();
+})();
+</script>
