@@ -205,10 +205,13 @@ nav.links a:hover { color: var(--ink); }
 }
 .portrait img {
   width: 100%; height: 100%; max-width: 100%; display: block;
-  border-radius: 50%; object-fit: cover;
+  border-radius: 50%; object-fit: cover; object-position: center;
   border: 1px solid var(--line); box-shadow: var(--shadow);
   outline: 1px solid var(--line); outline-offset: 9px;
+  transition: transform .55s var(--ease);
 }
+/* Al pasar el ratón, el círculo entero (foto + aro) crece un poco. */
+.portrait:hover img { transform: scale(1.07); }
 @media (max-width: 800px) { .portrait { width: 132px; order: -1; justify-self: start; } }
 
 .avail { display: inline-flex; align-items: center; gap: 8px; }
@@ -859,13 +862,13 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
           <p class="tl-lede"><span data-l="es">Agricultura de precisión: control operativo de plantaciones de palma de aceite, palma por palma.</span><span data-l="en">Precision agriculture: operational control of oil palm plantations, palm by palm.</span></p>
         </div>
         <div class="tl-ctrl">
-          <span class="tl-count" aria-live="polite"><b>01</b> / 08</span>
+          <span class="tl-count" aria-live="polite"><b>01</b> / 09</span>
           <button class="tl-btn" type="button" data-dir="-1"><span class="sr-only"><span data-l="es">Anterior</span><span data-l="en">Previous</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button>
           <button class="tl-btn" type="button" data-dir="1"><span class="sr-only"><span data-l="es">Siguiente</span><span data-l="en">Next</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button>
         </div>
       </div>
       <div class="tl-track" tabindex="0" role="region" aria-roledescription="carousel" aria-label="ClickPalm">
-          <article class="slide" role="group" aria-roledescription="slide" aria-label="1 / 8">
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="1 / 9">
             <span class="slide-n" aria-hidden="true">01</span>
             <div class="slide-top"><span class="slide-kind"><span data-l="es">Etapa</span><span data-l="en">Stage</span></span><span class="slide-yr">2023 — 2024</span><span class="tag hand" data-l="es">Arquitectura</span><span class="tag hand" data-l="en">Architecture</span></div>
             <h4 class="slide-title"><span data-l="es">Arquitecto de software</span><span data-l="en">Software architect</span></h4>
@@ -873,7 +876,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
             <div class="metrics"><div class="metric"><b>15.281</b><span data-l="es">líneas del motor de ETL</span><span data-l="en">lines in the ETL engine</span></div><div class="metric"><b>133</b><span data-l="es">migraciones de esquema</span><span data-l="en">schema migrations</span></div><div class="metric"><b class="hi">94 %</b><span data-l="es">de 526 commits, como autor</span><span data-l="en">of 526 commits, as author</span></div></div>
             <div class="slide-foot"><div class="stack"><span class="chip">.NET 8</span><span class="chip">Clean Architecture</span><span class="chip">CQRS</span><span class="chip">SQL Server → PostGIS</span></div><a class="slide-link" href="#w-agro"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
           </article>
-          <article class="slide" role="group" aria-roledescription="slide" aria-label="2 / 8">
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="2 / 9">
             <span class="slide-n" aria-hidden="true">02</span>
             <div class="slide-top"><span class="slide-kind"><span data-l="es">Etapa</span><span data-l="en">Stage</span></span><span class="slide-yr">2024 — <span data-l="es">hoy</span><span data-l="en">today</span></span><span class="tag ai" data-l="es">Con agentes</span><span class="tag ai" data-l="en">With agents</span></div>
             <h4 class="slide-title"><span data-l="es">Arquitecto e IA aplicada</span><span data-l="en">Architect, applied AI</span></h4>
@@ -881,7 +884,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
             <div class="metrics"><div class="metric"><b>89</b><span data-l="es">modelos entrenados en 35 familias</span><span data-l="en">models trained across 35 families</span></div><div class="metric"><b class="hi">0,995</b><span data-l="es">F1 del detector, verificado a mano</span><span data-l="en">detector F1, hand-verified</span></div><div class="metric"><b>118</b><span data-l="es">casos en los bancos de evaluación</span><span data-l="en">cases in the evaluation harnesses</span></div></div>
             <div class="slide-foot"><div class="stack"><span class="chip">PyTorch</span><span class="chip">ONNX</span><span class="chip">RAG</span><span class="chip">OR-Tools</span></div><a class="slide-link" href="#metodo"><span data-l="es">Ver cómo trabajo</span><span data-l="en">See how I work</span><span aria-hidden="true">→</span></a></div>
           </article>
-          <article class="slide" role="group" aria-roledescription="slide" aria-label="3 / 8">
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="3 / 9">
             <span class="slide-n" aria-hidden="true">03</span>
             <div class="slide-top"><span class="slide-kind"><span data-l="es">Equipo</span><span data-l="en">Team</span></span><span class="slide-yr"><span data-l="es">hoy</span><span data-l="en">today</span></span><span class="tag hand" data-l="es">Liderazgo</span><span class="tag hand" data-l="en">Leadership</span></div>
             <h4 class="slide-title"><span data-l="es">Líder técnico de un equipo de 2 personas</span><span data-l="en">Tech lead of a two-person team</span></h4>
@@ -889,7 +892,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
             <div class="metrics"><div class="metric"><b class="hi">2</b><span data-l="es">personas a cargo</span><span data-l="en">people on my team</span></div><div class="metric"><b>3</b><span data-l="es">frentes: equipo, cliente e incidencias</span><span data-l="en">fronts: team, client and issues</span></div><div class="metric"><b>2021</b><span data-l="es">usando ClickUp y Jira, desde Transfiriendo</span><span data-l="en">using ClickUp and Jira, since Transfiriendo</span></div></div>
             <div class="slide-foot"><div class="stack"><span class="chip">ClickUp</span><span class="chip">Jira</span><span class="chip">Dailys</span><span class="chip"><span data-l="es">Soporte al cliente</span><span data-l="en">Client support</span></span></div><a class="slide-link" href="#competencias"><span data-l="es">Ver competencias</span><span data-l="en">See skills</span><span aria-hidden="true">→</span></a></div>
           </article>
-          <article class="slide" role="group" aria-roledescription="slide" aria-label="4 / 8">
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="4 / 9">
             <span class="slide-n" aria-hidden="true">04</span>
             <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2023 — 2024</span><span class="tag hand" data-l="es">60 % a mano</span><span class="tag hand" data-l="en">60% by hand</span></div>
             <h4 class="slide-title"><span data-l="es">La plataforma agroindustrial, construida en su mayoría a mano</span><span data-l="en">The agri-industrial platform, mostly built by hand</span></h4>
@@ -897,7 +900,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
             <div class="metrics"><div class="metric"><b>450</b><span data-l="es">endpoints REST</span><span data-l="en">REST endpoints</span></div><div class="metric"><b>79</b><span data-l="es">tablas en PostgreSQL / PostGIS</span><span data-l="en">PostgreSQL / PostGIS tables</span></div><div class="metric"><b class="hi">0</b><span data-l="es">días de parada del negocio</span><span data-l="en">days of business downtime</span></div></div>
             <div class="slide-foot"><div class="stack"><span class="chip">.NET 8</span><span class="chip">Clean Architecture</span><span class="chip">CQRS</span><span class="chip">EF Core</span></div><a class="slide-link" href="#w-agro"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
           </article>
-          <article class="slide" role="group" aria-roledescription="slide" aria-label="5 / 8">
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="5 / 9">
             <span class="slide-n" aria-hidden="true">05</span>
             <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2024 — 2026</span><span class="tag ai" data-l="es">Con agentes</span><span class="tag ai" data-l="en">With agents</span></div>
             <h4 class="slide-title"><span data-l="es">Detección de palma de aceite sobre ortofotos de dron</span><span data-l="en">Oil palm detection on drone orthophotos</span></h4>
@@ -905,7 +908,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
             <div class="metrics"><div class="metric"><b class="hi">0,477 → 0,977</b><span data-l="es">recall, tras corregir las etiquetas</span><span data-l="en">recall, after fixing the labels</span></div><div class="metric"><b>0,995</b><span data-l="es">F1, verificado a mano</span><span data-l="en">F1, hand-verified</span></div><div class="metric"><b>76.120</b><span data-l="es">plantas activas en producción</span><span data-l="en">live plants in production</span></div></div>
             <div class="slide-foot"><div class="stack"><span class="chip">PyTorch</span><span class="chip">ONNX Runtime</span><span class="chip">U-Net</span><span class="chip">GDAL</span></div><a class="slide-link" href="#w-palma"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
           </article>
-          <article class="slide" role="group" aria-roledescription="slide" aria-label="6 / 8">
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="6 / 9">
             <span class="slide-n" aria-hidden="true">06</span>
             <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2025 — 2026</span><span class="tag ai" data-l="es">Con agentes</span><span class="tag ai" data-l="en">With agents</span></div>
             <h4 class="slide-title"><span data-l="es">Rutas de recorrido con Google OR-Tools</span><span data-l="en">Field route optimisation with Google OR-Tools</span></h4>
@@ -913,7 +916,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
             <div class="metrics"><div class="metric"><b>76.000<span class="u">+</span></b><span data-l="es">puntos candidatos</span><span data-l="en">candidate points</span></div><div class="metric"><b class="hi">O(n log n)</b><span data-l="es">emparejamiento de retícula, antes cúbico</span><span data-l="en">lattice matching, previously cubic</span></div><div class="metric"><b>3</b><span data-l="es">metaheurísticas: GLS, recocido, tabú</span><span data-l="en">metaheuristics: GLS, annealing, tabu</span></div></div>
             <div class="slide-foot"><div class="stack"><span class="chip">Google OR-Tools</span><span class="chip">NetTopologySuite</span><span class="chip">C#</span><span class="chip">Voronoi</span></div><a class="slide-link" href="#w-rutas"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
           </article>
-          <article class="slide" role="group" aria-roledescription="slide" aria-label="7 / 8">
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="7 / 9">
             <span class="slide-n" aria-hidden="true">07</span>
             <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2026</span><span class="tag ai" data-l="es">Con agentes</span><span class="tag ai" data-l="en">With agents</span></div>
             <h4 class="slide-title"><span data-l="es">De fotos de drones a ver el mapa en la web</span><span data-l="en">From drone photos to seeing the map on the web</span></h4>
@@ -921,7 +924,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
             <div class="metrics"><div class="metric"><b>26</b><span data-l="es">vuelos procesados</span><span data-l="en">flights processed</span></div><div class="metric"><b>5.351</b><span data-l="es">fotografías</span><span data-l="en">photographs</span></div><div class="metric"><b class="hi">13 h → 14 min</b><span data-l="es">densificación, al activar la GPU</span><span data-l="en">densification, after enabling the GPU</span></div></div>
             <div class="slide-foot"><div class="stack"><span class="chip">OpenDroneMap</span><span class="chip">GDAL</span><span class="chip">COG</span><span class="chip">PMTiles</span></div><a class="slide-link" href="#w-foto"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
           </article>
-          <article class="slide" role="group" aria-roledescription="slide" aria-label="8 / 8">
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="8 / 9">
             <span class="slide-n" aria-hidden="true">08</span>
             <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2026</span><span class="tag ai" data-l="es">Con agentes</span><span class="tag ai" data-l="en">With agents</span></div>
             <h4 class="slide-title"><span data-l="es">Bancos de pruebas para dos agentes en producción</span><span data-l="en">Evaluation harnesses for two production agents</span></h4>
@@ -929,8 +932,16 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
             <div class="metrics"><div class="metric"><b>118</b><span data-l="es">casos versionados</span><span data-l="en">versioned cases</span></div><div class="metric"><b class="hi">9 / 9</b><span data-l="es">inyección de prompt, incluida la indirecta</span><span data-l="en">prompt injection, indirect included</span></div><div class="metric"><b>0</b><span data-l="es">fugas entre clientes</span><span data-l="en">cross-tenant leaks</span></div></div>
             <div class="slide-foot"><div class="stack"><span class="chip">Python</span><span class="chip">text-to-SQL</span><span class="chip">RAG</span><span class="chip">ChromaDB</span></div><a class="slide-link" href="#w-bancos"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
           </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="9 / 9">
+            <span class="slide-n" aria-hidden="true">09</span>
+            <div class="slide-top"><span class="slide-kind"><span data-l="es">Proyecto</span><span data-l="en">Project</span></span><span class="slide-yr">2026</span><span class="tag ai" data-l="es">Con agentes</span><span class="tag ai" data-l="en">With agents</span></div>
+            <h4 class="slide-title"><span data-l="es">El bot de WhatsApp que vigila y responde</span><span data-l="en">The WhatsApp bot that watches and answers</span></h4>
+            <p class="slide-text"><span data-l="es">Avisa en tiempo real, vigila el servidor y responde por WhatsApp: consultas a PostgreSQL, documentación y estado de los servicios, todo en solo lectura, con un PIN para actuar. El canal de ida y vuelta con la sesión de trabajo va por Monitor y Shell en Claude Code.</span><span data-l="en">Alerts in real time, watches the server and answers over WhatsApp: PostgreSQL queries, documentation and service status, all read-only, with a PIN to act. The two-way channel with the working session runs over Monitor and Shell in Claude Code.</span></p>
+            <div class="metrics"><div class="metric"><b class="hi">4</b><span data-l="es">vigilantes: deploys, procesos, host y salud</span><span data-l="en">watchdogs: deploys, processes, host and health</span></div><div class="metric"><b>15 s</b><span data-l="es">latencia del canal, medida</span><span data-l="en">channel latency, measured</span></div><div class="metric"><b>2</b><span data-l="es">conexiones de solo lectura</span><span data-l="en">read-only connections</span></div></div>
+            <div class="slide-foot"><div class="stack"><span class="chip">OpenClaw</span><span class="chip">PostgreSQL</span><span class="chip">Docker</span><span class="chip">Claude Code</span></div><a class="slide-link" href="#w-bot"><span data-l="es">Ver la pieza</span><span data-l="en">See the piece</span><span aria-hidden="true">→</span></a></div>
+          </article>
       </div>
-      <div class="tl-pips"><button class="tl-pip" type="button" data-go="0"><span class="sr-only"><span data-l="es">Ir a la diapositiva 1</span><span data-l="en">Go to slide 1</span></span></button><button class="tl-pip" type="button" data-go="1"><span class="sr-only"><span data-l="es">Ir a la diapositiva 2</span><span data-l="en">Go to slide 2</span></span></button><button class="tl-pip" type="button" data-go="2"><span class="sr-only"><span data-l="es">Ir a la diapositiva 3</span><span data-l="en">Go to slide 3</span></span></button><button class="tl-pip" type="button" data-go="3"><span class="sr-only"><span data-l="es">Ir a la diapositiva 4</span><span data-l="en">Go to slide 4</span></span></button><button class="tl-pip" type="button" data-go="4"><span class="sr-only"><span data-l="es">Ir a la diapositiva 5</span><span data-l="en">Go to slide 5</span></span></button><button class="tl-pip" type="button" data-go="5"><span class="sr-only"><span data-l="es">Ir a la diapositiva 6</span><span data-l="en">Go to slide 6</span></span></button><button class="tl-pip" type="button" data-go="6"><span class="sr-only"><span data-l="es">Ir a la diapositiva 7</span><span data-l="en">Go to slide 7</span></span></button><button class="tl-pip" type="button" data-go="7"><span class="sr-only"><span data-l="es">Ir a la diapositiva 8</span><span data-l="en">Go to slide 8</span></span></button></div>
+      <div class="tl-pips"><button class="tl-pip" type="button" data-go="0"><span class="sr-only"><span data-l="es">Ir a la diapositiva 1</span><span data-l="en">Go to slide 1</span></span></button><button class="tl-pip" type="button" data-go="1"><span class="sr-only"><span data-l="es">Ir a la diapositiva 2</span><span data-l="en">Go to slide 2</span></span></button><button class="tl-pip" type="button" data-go="2"><span class="sr-only"><span data-l="es">Ir a la diapositiva 3</span><span data-l="en">Go to slide 3</span></span></button><button class="tl-pip" type="button" data-go="3"><span class="sr-only"><span data-l="es">Ir a la diapositiva 4</span><span data-l="en">Go to slide 4</span></span></button><button class="tl-pip" type="button" data-go="4"><span class="sr-only"><span data-l="es">Ir a la diapositiva 5</span><span data-l="en">Go to slide 5</span></span></button><button class="tl-pip" type="button" data-go="5"><span class="sr-only"><span data-l="es">Ir a la diapositiva 6</span><span data-l="en">Go to slide 6</span></span></button><button class="tl-pip" type="button" data-go="6"><span class="sr-only"><span data-l="es">Ir a la diapositiva 7</span><span data-l="en">Go to slide 7</span></span></button><button class="tl-pip" type="button" data-go="7"><span class="sr-only"><span data-l="es">Ir a la diapositiva 8</span><span data-l="en">Go to slide 8</span></span></button><button class="tl-pip" type="button" data-go="8"><span class="sr-only"><span data-l="es">Ir a la diapositiva 9</span><span data-l="en">Go to slide 9</span></span></button></div>
     </div>
       </div>
     </div>
@@ -999,10 +1010,6 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
       <p>
         <span data-l="es">Doce piezas en orden cronológico. Cada una lleva la marca de cómo se construyó: <strong>a mano</strong>, que es como trabajé los primeros ocho años y como sigo trabajando, o <strong>con agentes</strong> orquestados bajo reglas escritas, que sumé a mi forma de trabajar en 2024.</span>
         <span data-l="en">Twelve pieces in chronological order. Each carries a mark for how it was built: <strong>by hand</strong>, which is how I worked for the first eight years and still do, or <strong>with agents</strong> orchestrated under written rules, which I added to how I work in 2024.</span>
-      </p>
-      <p class="small">
-        <span data-l="es">Los clientes finales no se nombran: cada proyecto se describe por su dominio y por sus cifras.</span>
-        <span data-l="en">End clients are not named: each project is described by its domain and its figures.</span>
       </p>
     </div>
 
@@ -1302,6 +1309,35 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         </div>
       </article>
 
+      <article class="entry" id="w-clickbot">
+        <div class="entry-meta">
+          <span class="yr">2026</span>
+          <span class="tag ai" data-l="es">Con agentes</span>
+          <span class="tag ai" data-l="en">With agents</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">Clickbot: un agente que consulta la base y explica los datos</span><span data-l="en">Clickbot: an agent that queries the database and explains the data</span></h3>
+          <p>
+            <span data-l="es">Asistente de lenguaje natural a SQL orquestado con Vanna, desplegado con Dokploy en un VPS de IA y conectado al portal por SignalR. Mi API manda cada pregunta con la identidad del usuario y de su empresa; el agente busca primero en una memoria vectorial de consultas ya probadas, ejecuta SQL de solo lectura, delega en especialistas de dominio y responde en streaming con el modelo DeepSeek.</span>
+            <span data-l="en">A natural-language-to-SQL assistant orchestrated with Vanna, deployed with Dokploy on an AI VPS and connected to the portal over SignalR. My API sends each question with the user's and the company's identity; the agent first searches a vector memory of proven queries, runs read-only SQL, delegates to domain specialists and streams its answer with the DeepSeek model.</span>
+          </p>
+          <div class="metrics">
+            <div class="metric"><b class="hi">12</b><span data-l="es">consultas como máximo por pregunta</span><span data-l="en">queries at most per question</span></div>
+            <div class="metric"><b>5.000 / 60 s</b><span data-l="es">tope de filas y de tiempo por consulta</span><span data-l="en">row and time cap per query</span></div>
+            <div class="metric"><b>4</b><span data-l="es">preguntas simultáneas, con un 503 limpio</span><span data-l="en">concurrent questions, with a clean 503</span></div>
+            <div class="metric"><b>32 / 0</b><span data-l="es">bien y mal en el banco</span><span data-l="en">right and wrong in the benchmark</span></div>
+          </div>
+          <p class="small">
+            <span data-l="es">Los límites están pensados para que el peor caso sea una respuesta más lenta y no un error: al llegar al tope de consultas el agente redacta con lo que tiene, una consulta con marcadores sin sustituir se rechaza antes de ejecutarse, y un error del motor no se reintenta porque volvería a fallar y se cobraría dos veces. Cada pregunta deja registrados sus tokens, su latencia y las herramientas usadas, y el coste real ronda los 2 a 4 dólares por mil preguntas.</span>
+            <span data-l="en">The limits are designed so the worst case is a slower answer, not an error: at the query cap the agent writes up what it has, a query with unreplaced placeholders is rejected before running, and an engine error is not retried because it would fail again and be billed twice. Every question logs its tokens, latency and tools used, and the real cost is around 2 to 4 dollars per thousand questions.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">Vanna</span><span class="chip">DeepSeek</span><span class="chip">ChromaDB</span>
+            <span class="chip">PostgreSQL</span><span class="chip">SignalR</span><span class="chip">Dokploy</span>
+          </div>
+        </div>
+      </article>
+
       <article class="entry" id="w-bancos">
         <div class="entry-meta">
           <span class="yr">2026</span>
@@ -1327,6 +1363,35 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
           <div class="stack">
             <span class="chip">Python</span><span class="chip">text-to-SQL</span><span class="chip">RAG</span>
             <span class="chip">ChromaDB</span><span class="chip">PostgreSQL</span><span class="chip">Multi-tenant</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry" id="w-bot">
+        <div class="entry-meta">
+          <span class="yr">2026</span>
+          <span class="tag ai" data-l="es">Con agentes</span>
+          <span class="tag ai" data-l="en">With agents</span>
+        </div>
+        <div class="entry-body">
+          <h3><span data-l="es">Un bot de WhatsApp que vigila, avisa y responde</span><span data-l="en">A WhatsApp bot that watches, alerts and answers</span></h3>
+          <p>
+            <span data-l="es">Asistente de producción sobre OpenClaw con un canal de comunicación bidireccional. Cuatro vigilantes en el host avisan por WhatsApp en tiempo real cuando algo cambia —un despliegue, una detección de IA, un contenedor caído, el disco— y desde el teléfono responde consultas a PostgreSQL, a la documentación y al estado de los servicios. Todo en solo lectura: para actuar (reiniciar, apagar, encender) pide un PIN que valida el host, no el bot.</span>
+            <span data-l="en">A production assistant on OpenClaw with a bidirectional channel. Four host watchdogs alert over WhatsApp in real time when something changes —a deploy, an AI detection, a downed container, the disk— and from the phone it answers queries against PostgreSQL, the documentation and the state of the services. Everything read-only: to act (restart, stop, start) it asks for a PIN validated by the host, not the bot.</span>
+          </p>
+          <div class="metrics">
+            <div class="metric"><b class="hi">4</b><span data-l="es">vigilantes en el host</span><span data-l="en">host watchdogs</span></div>
+            <div class="metric"><b>15 s</b><span data-l="es">latencia del canal, medida</span><span data-l="en">channel latency, measured</span></div>
+            <div class="metric"><b>2</b><span data-l="es">usuarios de solo lectura</span><span data-l="en">read-only users</span></div>
+            <div class="metric"><b>45 / 45</b><span data-l="es">casos automáticos en verde</span><span data-l="en">automated cases green</span></div>
+          </div>
+          <p class="small">
+            <span data-l="es">El canal de ida y vuelta pasa por la sesión de trabajo: los mensajes caen a un fichero y un vigilante lanzado con Monitor en modo persistente los convierte en avisos, línea por línea, mientras la sesión responde por la misma vía. La lección de las dos primeras versiones: un proceso en segundo plano con Bash avisa una sola vez, al terminar, y un bucle de vigilancia no termina nunca.</span>
+            <span data-l="en">The two-way channel runs through the working session: messages land in a file and a watchdog launched with Monitor in persistent mode turns them into alerts, line by line, while the session answers back the same way. The lesson from the first two versions: a background process under Bash alerts once, when it finishes, and a watchdog loop never finishes.</span>
+          </p>
+          <div class="stack">
+            <span class="chip">OpenClaw</span><span class="chip">PostgreSQL</span><span class="chip">Docker</span>
+            <span class="chip">Claude Code</span><span class="chip">WhatsApp</span><span class="chip">Bash</span>
           </div>
         </div>
       </article>
@@ -1420,7 +1485,7 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
         <li class="hw-layer" style="--k:1">
           <span class="hw-node" aria-hidden="true"></span>
           <span class="hw-tag"><span data-l="es">Datos</span><span data-l="en">Data</span></span>
-          <div class="hw-body"><h3><span data-l="es">Bases de datos</span><span data-l="en">Databases</span></h3><p><span data-l="es">PostgreSQL con PostGIS para que cada palma tenga su lugar en el mapa: 79 tablas y 133 migraciones de esquema.</span><span data-l="en">PostgreSQL with PostGIS so every palm has its place on the map: 79 tables and 133 schema migrations.</span></p></div>
+          <div class="hw-body"><h3><span data-l="es">Bases de datos</span><span data-l="en">Databases</span></h3><p><span data-l="es">PostgreSQL con PostGIS para que cada planta tenga su lugar en el mapa: 79 tablas, 133 migraciones y más de 200 millones de visitas en la tabla principal.</span><span data-l="en">PostgreSQL with PostGIS so every plant has its place on the map: 79 tables, 133 migrations and more than 200 million visits in the main table.</span></p></div>
           <div class="stack"><span class="chip">PostgreSQL</span><span class="chip">PostGIS</span><span class="chip">Redis</span></div>
         </li>
         <li class="hw-layer" style="--k:2">
@@ -1560,6 +1625,8 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
           <li><span data-l="es">Estimación, planificación y venta técnica</span><span data-l="en">Estimation, planning and technical sales</span></li>
           <li><span data-l="es">Documentación de decisiones y ADR</span><span data-l="en">Decision records and ADRs</span></li>
           <li><span data-l="es">Orquestación de agentes de código con reglas propias</span><span data-l="en">Orchestrating coding agents under written rules</span></li>
+          <li><span data-l="es">Agentes de código en mi entorno local: Claude Code en la terminal y dentro de VS Code, y GitHub Copilot en el IDE. Hoy trabajo sobre todo en la terminal, porque me da control total</span><span data-l="en">Coding agents in my local setup: Claude Code in the terminal and inside VS Code, and GitHub Copilot in the IDE. Today I work mostly in the terminal, for full control</span></li>
+          <li><span data-l="es">Configuración del agente: ficheros de reglas por repositorio, skills del proyecto, memoria persistente y servidores MCP</span><span data-l="en">Agent configuration: per-repository rules files, project skills, persistent memory and MCP servers</span></li>
         </ul>
       </div>
       <div class="skill wide">
@@ -1577,10 +1644,11 @@ footer { border-top: 1px solid var(--line-soft); padding-block: 30px 40px; }
           <div>
             <p class="skill-era"><span data-l="es">En ClickPalm</span><span data-l="en">At ClickPalm</span></p>
             <ul>
-              <li><span data-l="es">Servicios en AWS</span><span data-l="en">Services on AWS</span></li>
+              <li><span data-l="es">AWS: EC2, balanceadores de carga, VPC, IAM, S3 y RDS. Fue la infraestructura con la que arrancó el producto</span><span data-l="en">AWS: EC2, load balancers, VPC, IAM, S3 and RDS. It was the infrastructure the product started on</span></li>
+              <li><span data-l="es">IAM y scripts para administrar y guardar todo tipo de archivos en S3</span><span data-l="en">IAM and scripts to manage and store every kind of file in S3</span></li>
+              <li><span data-l="es">Migración posterior a servidores VPS en Contabo</span><span data-l="en">Later migration to VPS servers on Contabo</span></li>
               <li><span data-l="es">Dokploy para centralizar los despliegues</span><span data-l="en">Dokploy to centralise deployments</span></li>
-              <li><span data-l="es">Servidores VPS en Contabo</span><span data-l="en">VPS servers on Contabo</span></li>
-              <li>Cloudflare</li>
+              <li><span data-l="es">Cloudflare para dominios y DNS</span><span data-l="en">Cloudflare for domains and DNS</span></li>
             </ul>
           </div>
         </div>
